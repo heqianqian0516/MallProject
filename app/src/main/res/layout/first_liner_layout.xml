@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+  <LinearLayout
+      android:background="@drawable/first_horiz"
+      android:orientation="horizontal"
+      android:layout_marginRight="@dimen/dp_24"
+      android:layout_marginTop="@dimen/dp_10"
+      android:layout_width="@dimen/dp_312"
+      android:layout_height="@dimen/dp_118">
+      <com.facebook.drawee.view.SimpleDraweeView
+          android:id="@+id/sdv_img"
+          android:layout_marginLeft="@dimen/dp_10"
+          android:layout_marginTop="@dimen/dp_10"
+          android:layout_marginBottom="@dimen/dp_10"
+          android:layout_width="@dimen/dp_85"
+          android:layout_height="@dimen/dp_98" />
+      <LinearLayout
+          android:background="#fff"
+          android:orientation="vertical"
+          android:layout_marginTop="@dimen/dp_20"
+          android:layout_marginRight="@dimen/dp_10"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+          <TextView
+              android:id="@+id/text_name1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="name"
+              android:ellipsize="end"
+              android:singleLine="true"
+              android:layout_marginTop="@dimen/dp_10"
+              android:layout_marginLeft="@dimen/dp_20"
+              android:textSize="@dimen/sp_12"
+              android:textColor="#666666"
+              />
+          <TextView
+              android:id="@+id/text_price1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="name"
+              android:layout_marginTop="@dimen/dp_30"
+              android:layout_marginLeft="@dimen/dp_20"
+              android:textSize="@dimen/sp_14"
+              android:textColor="#ff0000"
+              />
+      </LinearLayout>
+  </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ShowActivity">
+ <android.support.v4.view.ViewPager
+     android:id="@+id/view_page"
+     android:layout_weight="9"
+     android:layout_width="match_parent"
+     android:layout_height="0dp"></android.support.v4.view.ViewPager>
+
+  <RadioGroup
+
+      android:id="@+id/redio_group"
+      android:layout_weight="1.5"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:background="@mipmap/bg_homepage_bottom"
+      android:layout_height="0dp">
+
+      <RadioButton
+          android:id="@+id/iamge1"
+          android:layout_width="@dimen/dp_26"
+          android:layout_height="@dimen/dp_26"
+          android:button="@null"
+          android:background="@mipmap/tab_home_bottom_shouyes"
+          android:layout_marginLeft="32dp"
+          android:layout_gravity="center"
+          android:layout_marginRight="35dp"
+          />
+      <RadioButton
+          android:id="@+id/iamge2"
+          android:layout_width="@dimen/dp_34"
+          android:layout_height="@dimen/dp_35"
+          android:button="@null"
+          android:background="@mipmap/tab_home_bottom_quanzi"
+          android:layout_marginRight="@dimen/dp_42"
+          android:layout_gravity="center"
+          />
+
+      <RadioButton
+          android:id="@+id/iamge3"
+          android:layout_width="@dimen/dp_55"
+          android:layout_height="@dimen/dp_55"
+          android:layout_gravity="center"
+          android:layout_marginRight="@dimen/dp_36"
+          android:background="@mipmap/tab_home_bottom_gouwuche"
+          android:button="@null" />
+      <RadioButton
+          android:id="@+id/iamge4"
+          android:layout_width="@dimen/dp_26"
+          android:layout_height="@dimen/dp_26"
+          android:button="@null"
+          android:background="@mipmap/tab_home_bottom_zhangdans"
+          android:layout_marginRight="@dimen/dp_35"
+          android:layout_gravity="center"
+          />
+      <RadioButton
+          android:id="@+id/iamge5"
+          android:layout_width="@dimen/dp_26"
+          android:layout_height="@dimen/dp_26"
+          android:button="@null"
+          android:background="@mipmap/tab_home_bottom_wode"
+          android:layout_marginRight="@dimen/dp_32"
+          android:layout_gravity="center"
+          />
+
+  </RadioGroup>
+</LinearLayout>

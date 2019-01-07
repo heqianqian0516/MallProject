@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MallProject</string>
+    <string name="account">手机号</string>
+    <string name="password">登录密码</string>
+    <string name="check_password">验证码</string>
+    <string name="check_login">自动登录</string>
+    <string name="login">登录</string>
+    <string name="loading">正在加载数据</string>
+    <string name="register">注册</string>
+</resources>
