@@ -90,6 +90,16 @@ public class RetrofitManager<T> {
                 .subscribe(getObserver(httpListener));
 
     }
+    //put 请求
+    public  void put(String url,Map<String,RequestBody> map,HttpListener httpListener){
+        if (map==null){
+            map=new HashMap<>();
+        }
+        mBaseApis.put(url,map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getObserver(httpListener));
+    }
     private Observer getObserver(final HttpListener httpListener){
      Observer observer=new Observer<ResponseBody>(){
 

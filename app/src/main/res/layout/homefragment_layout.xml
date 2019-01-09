@@ -4,18 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+
+
     <RelativeLayout
      android:layout_marginTop="36dp"
      android:layout_width="match_parent"
      android:layout_height="wrap_content">
    <ImageView
+       android:layout_marginTop="@dimen/dp_5"
        android:id="@+id/image"
        android:layout_width="24dp"
        android:layout_height="24dp"
@@ -23,7 +19,20 @@
        android:src="@mipmap/common_btn_menu"
        android:layout_marginLeft="@dimen/dp_24"
        />
+        <EditText
+            android:layout_marginTop="@dimen/dp_5"
+            android:id="@+id/home_ed"
+            android:background="@drawable/edittext_bg_home"
+            android:layout_width="@dimen/dp_230"
+            android:layout_height="@dimen/dp_30"
+            app:layout_constraintLeft_toRightOf="@id/home_ed"
+            android:layout_marginLeft="@dimen/dp_50"
+            android:paddingLeft="@dimen/dp_20"
+            android:hint="请输入您要搜索的商品"
+            android:visibility="gone"
+            />
    <ImageView
+       android:layout_marginTop="@dimen/dp_5"
        android:id="@+id/search"
        android:layout_width="24dp"
        android:layout_height="24dp"
@@ -31,8 +40,27 @@
        android:layout_marginRight="@dimen/dp_24"
        android:layout_alignParentRight="true"
        />
-
+        <TextView
+            android:id="@+id/home_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_color_six"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_15"
+            android:visibility="gone"
+            />
  </RelativeLayout>
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
        <LinearLayout
            android:orientation="vertical"
            android:clipChildren="false"
@@ -155,4 +183,8 @@
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
+   <android.support.v7.widget.RecyclerView
+        android:id="@+id/byRecy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

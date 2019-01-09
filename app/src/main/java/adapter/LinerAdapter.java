@@ -43,13 +43,21 @@ public class LinerAdapter  extends RecyclerView.Adapter<LinerAdapter.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LinerAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull LinerAdapter.ViewHolder viewHolder, final int position) {
         LinerAdapter.ViewHolder holderLiner=viewHolder;
         String image = mData.get(position).getMasterPic().split("\\|")[0].replace("https", "http");
         holderLiner.textName.setText(mData.get(position).getCommodityName());
         holderLiner.textPrice.setText("￥"+mData.get(position).getPrice()+"");
         Uri uri = Uri.parse(image);
         holderLiner.sdvView.setImageURI(uri);
+        holderLiner.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (httpSetOnclickListener!=null){
+                    httpSetOnclickListener.onClickListener(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -67,5 +75,12 @@ public class LinerAdapter  extends RecyclerView.Adapter<LinerAdapter.ViewHolder>
             textName = itemView.findViewById(R.id.text_name1);
             textPrice = itemView.findViewById(R.id.text_price1);
         }
+    }
+    private ShowHoriAdapter.HttpSetOnclickListener httpSetOnclickListener;
+    public void setHttpSetOnclickListener(ShowHoriAdapter.HttpSetOnclickListener httpSetOnclickListener){
+        this.httpSetOnclickListener=httpSetOnclickListener;
+    }
+    public interface HttpSetOnclickListener{
+        void onClickListener(int position);
     }
 }

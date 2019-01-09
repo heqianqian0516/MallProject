@@ -2,7 +2,7 @@ package bean;
 
 import java.util.List;
 
-public class SearchBean {
+public class FindIdBean {
     private List<ResultBean> result;
 
     public List<ResultBean> getResult() {
@@ -59,7 +59,16 @@ public class SearchBean {
         public void setSaleNum(int saleNum) {
             this.saleNum = saleNum;
         }
-    }
-    }
 
-
+        @Override
+        public String toString() {
+            return "ResultBean{" +
+                    "commodityId=" + commodityId +
+                    ", commodityName='" + commodityName + '\'' +
+                    ", masterPic='" + masterPic + '\'' +
+                    ", price=" + price +
+                    ", saleNum=" + saleNum +
+                    '}';
+        }
+    }
+}

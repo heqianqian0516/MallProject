@@ -42,14 +42,23 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GridAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull GridAdapter.ViewHolder viewHolder, final int position) {
         GridAdapter.ViewHolder holderGrid=viewHolder;
         String image = mData.get(position).getMasterPic().split("\\|")[0].replace("https", "http");
         holderGrid.textName.setText(mData.get(position).getCommodityName());
         holderGrid.textPrice.setText("￥"+mData.get(position).getPrice()+"");
         Uri uri = Uri.parse(image);
         holderGrid.sdvView.setImageURI(uri);
+        holderGrid.itemView.setOnClickListener(new View.OnClickListener() {
 
+
+            @Override
+            public void onClick(View v) {
+                if (httpSetOnclickListener!=null){
+                    httpSetOnclickListener.onClickListener(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -67,5 +76,12 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             textName = itemView.findViewById(R.id.text_name2);
             textPrice = itemView.findViewById(R.id.text_price2);
         }
+    }
+    private ShowHoriAdapter.HttpSetOnclickListener httpSetOnclickListener;
+    public void setHttpSetOnclickListener(ShowHoriAdapter.HttpSetOnclickListener httpSetOnclickListener){
+        this.httpSetOnclickListener=httpSetOnclickListener;
+    }
+    public interface HttpSetOnclickListener{
+        void onClickListener(int position);
     }
 }

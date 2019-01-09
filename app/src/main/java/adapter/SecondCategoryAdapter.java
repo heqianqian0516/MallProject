@@ -25,7 +25,10 @@ public class SecondCategoryAdapter extends RecyclerView.Adapter<SecondCategoryAd
         mData=new ArrayList<>();
     }
     public void setmData(List<SecondCategoryBean.ResultBean> datas) {
-        mData.addAll(datas);
+        mData.clear();
+        if (datas!=null){
+            mData.addAll(datas);
+        }
         notifyDataSetChanged();
     }
     @NonNull
@@ -37,14 +40,14 @@ public class SecondCategoryAdapter extends RecyclerView.Adapter<SecondCategoryAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SecondCategoryAdapter.ViewHolder holder, final int position) {
-         ViewHolder holder1=holder;
+    public void onBindViewHolder(@NonNull SecondCategoryAdapter.ViewHolder viewHolder, final int position) {
+         ViewHolder holder=viewHolder;
          holder.bottomView.setText(mData.get(position).getName());
-         holder.bottomView.setOnClickListener(new View.OnClickListener() {
+         holder.itemView.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  if(catagralTwoCallBack!=null){
-                     catagralTwoCallBack.callBack(mData.get(position).getId());
+                     catagralTwoCallBack.callBack(position);
                  }
              }
          });
@@ -70,7 +73,7 @@ public class SecondCategoryAdapter extends RecyclerView.Adapter<SecondCategoryAd
         this.catagralTwoCallBack = catagralTwoCallBack;
     }
     public interface CatagralTwoCallBack{
-        void callBack(String id);
+        void callBack(int index);
     }
 }
 

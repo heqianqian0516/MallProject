@@ -149,7 +149,7 @@ public class Apis {
     /**
      * 查询二级商品类目 http://172.17.8.100/small/commodity/v1/findSecondCategory
      */
-    public static final String URL_FIND_SECOND_CATEGORY_GET="commodity/v1/findSecondCategory?firstCategoryId=%s";
+    public static final String URL_FIND_SECOND_CATEGORY_GET="commodity/v1/findSecondCategory?firstCategoryId=";
 
 
 }

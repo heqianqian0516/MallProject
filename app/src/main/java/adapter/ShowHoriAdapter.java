@@ -41,13 +41,21 @@ public class ShowHoriAdapter extends RecyclerView.Adapter<ShowHoriAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShowHoriAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ShowHoriAdapter.ViewHolder viewHolder, final int position) {
         ViewHolder holderHroiz=viewHolder;
         String image = mData.get(position).getMasterPic().split("\\|")[0].replace("https", "http");
         holderHroiz.textName.setText(mData.get(position).getCommodityName());
         holderHroiz.textPrice.setText("￥"+mData.get(position).getPrice()+"");
         Uri uri = Uri.parse(image);
         holderHroiz.sdvView.setImageURI(uri);
+        holderHroiz.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (httpSetOnclickListener!=null){
+                    httpSetOnclickListener.onClickListener(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -67,5 +75,12 @@ public class ShowHoriAdapter extends RecyclerView.Adapter<ShowHoriAdapter.ViewHo
             textName = itemView.findViewById(R.id.text_name);
             textPrice = itemView.findViewById(R.id.text_price);
         }
+    }
+    private HttpSetOnclickListener httpSetOnclickListener;
+    public void setHttpSetOnclickListener(HttpSetOnclickListener httpSetOnclickListener){
+        this.httpSetOnclickListener=httpSetOnclickListener;
+    }
+    public interface HttpSetOnclickListener{
+        void onClickListener(int position);
     }
 }

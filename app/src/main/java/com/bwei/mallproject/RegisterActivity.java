@@ -21,7 +21,9 @@ import bean.RegisterBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import presenter.IPresenterImpl;
-
+/**
+ * 注册页面
+ * **/
 public class RegisterActivity extends AppCompatActivity implements IView {
     private static final String TAG = "RegisterActivity+++++++";
     @BindView(R.id.img_account)
@@ -54,10 +56,10 @@ public class RegisterActivity extends AppCompatActivity implements IView {
            public void onClick(View v) {
                //请求网络
                loadData();
-               /*Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+               Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
                startActivity(intent);
-               finish();*/
+               finish();
            }
        });
         /*

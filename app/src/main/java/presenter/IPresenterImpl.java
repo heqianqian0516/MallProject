@@ -44,6 +44,22 @@ public class IPresenterImpl implements IPresenter {
              }
          });
     }
+
+    @Override
+    public void startRequestPut(String url, Map<String, String> params, Class clazz) {
+        model.requestDataPut(url, params, clazz, new MyCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                iView.getDataSuccess(data);
+            }
+
+            @Override
+            public void onFail(String error) {
+               iView.getDataFail(error);
+            }
+        });
+    }
+
     public void onDetach(){
         if (model!=null){
             model=null;

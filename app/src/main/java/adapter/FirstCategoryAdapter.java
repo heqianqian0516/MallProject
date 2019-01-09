@@ -39,9 +39,17 @@ public class FirstCategoryAdapter  extends RecyclerView.Adapter<FirstCategoryAda
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FirstCategoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FirstCategoryAdapter.ViewHolder holder, final int position) {
          ViewHolder holder1=holder;
          holder1.topView.setText(mData.get(position).getName());
+         holder1.itemView.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 if (catagralTwoCallBack!=null){
+                     catagralTwoCallBack.callBack(position);
+                 }
+             }
+         });
     }
 
     @Override
@@ -57,6 +65,13 @@ public class FirstCategoryAdapter  extends RecyclerView.Adapter<FirstCategoryAda
             super(itemView);
             topView = itemView.findViewById(R.id.top_text);
         }
+    }
+    private SecondCategoryAdapter.CatagralTwoCallBack catagralTwoCallBack;
+    public void setCatagralTwoCallBack(SecondCategoryAdapter.CatagralTwoCallBack catagralTwoCallBack){
+        this.catagralTwoCallBack = catagralTwoCallBack;
+    }
+    public interface CatagralTwoCallBack{
+        void callBack(int index);
     }
 }
 

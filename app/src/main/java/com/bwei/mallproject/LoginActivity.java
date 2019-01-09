@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity implements IView {
             public void onClick(View v) {
                  String phone = mEtAccount.getText().toString();
                  String pwd = mEtAccounts.getText().toString();
-                 if (phone.equals("18338733586")&&pwd.equals("123456")){
                      SharedPreferences.Editor editor = sp.edit();
                      if (mCheck.isChecked()){
                          editor.putBoolean(REMEMBER_PWD_PREF,true);
@@ -98,10 +97,8 @@ public class LoginActivity extends AppCompatActivity implements IView {
                      editor.apply();
                       //请求网络
                      loadData();
-                 }else{
-                     Toast.makeText(LoginActivity.this,"账号或密码不正确",Toast.LENGTH_SHORT).show();
-                 }
-            }
+                        }
+
         });
         /*
         * 密码可见或隐藏
@@ -168,7 +165,6 @@ public class LoginActivity extends AppCompatActivity implements IView {
                 Toast.makeText(LoginActivity.this, bean.getMessage(), Toast.LENGTH_LONG).show();
             }else{
                 initData(result.getUserId()+"",result.getSessionId()+"");
-                Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(LoginActivity.this,ShowActivity.class);
                 startActivity(intent);
             }

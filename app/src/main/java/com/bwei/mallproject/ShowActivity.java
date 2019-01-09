@@ -20,7 +20,10 @@ import fragment.HomeFragment;
 import fragment.MyFragment;
 import fragment.OrderFragment;
 import fragment.ShopFragment;
-
+  /**
+   *
+   * 主页面
+   * **/
 public class ShowActivity extends AppCompatActivity {
 
     @BindView(R.id.view_page)
