@@ -21,9 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import bean.EventBean;
 import view.IView;
 import api.Apis;
 import app.MyApplication;
@@ -165,6 +168,7 @@ public class LoginActivity extends AppCompatActivity implements IView {
                 Toast.makeText(LoginActivity.this, bean.getMessage(), Toast.LENGTH_LONG).show();
             }else{
                 initData(result.getUserId()+"",result.getSessionId()+"");
+                EventBus.getDefault().postSticky(new EventBean("main",data));
                 Intent intent=new Intent(LoginActivity.this,ShowActivity.class);
                 startActivity(intent);
             }

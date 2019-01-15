@@ -50,16 +50,16 @@ public class RegisterActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_register);
         initPresenter();
         ButterKnife.bind(this);
-        loadData();
+      //  loadData();
        mBtnRegist.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                //请求网络
                loadData();
-               Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+               /*Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
                startActivity(intent);
-               finish();
+               finish();*/
            }
        });
         /*
@@ -85,8 +85,8 @@ public class RegisterActivity extends AppCompatActivity implements IView {
 
     private void loadData() {
         Map<String, String> hashMap = new HashMap<>();
-        hashMap.put("phone",mEtAccount.getText().toString());
-        hashMap.put("pwd",mEtPwd.getText().toString());
+        hashMap.put("phone",mEtAccount.getText().toString().trim());
+        hashMap.put("pwd",mEtPwd.getText().toString().trim());
       //  hashMap.put(Constants.MAP_KEY_SEARCH_PRODUCTS_PHONE, mEtAccount.getText().toString());
         //hashMap.put(Constants.MAP_KEY_SEARCH_PRODUCTS_PWD, mEtPwd.getText().toString());
         iPresenter.startRequestPost(Apis.URL_REGISTER_POST, hashMap, RegisterBean.class);
@@ -97,11 +97,12 @@ public class RegisterActivity extends AppCompatActivity implements IView {
         if (data instanceof RegisterBean) {
             RegisterBean bean = (RegisterBean) data;
             if (bean == null || !bean.isSuccess()) {
-                Toast.makeText(RegisterActivity.this, bean.getMessage(), Toast.LENGTH_LONG).show();
-            }else {
+
                 Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }else {
+                Toast.makeText(RegisterActivity.this, bean.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
 

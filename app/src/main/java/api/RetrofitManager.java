@@ -91,7 +91,7 @@ public class RetrofitManager<T> {
 
     }
     //put 请求
-    public  void put(String url,Map<String,RequestBody> map,HttpListener httpListener){
+    public  void put(String url,Map<String,String> map,HttpListener httpListener){
         if (map==null){
             map=new HashMap<>();
         }
@@ -99,6 +99,7 @@ public class RetrofitManager<T> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(httpListener));
+
     }
     private Observer getObserver(final HttpListener httpListener){
      Observer observer=new Observer<ResponseBody>(){
@@ -133,7 +134,7 @@ public class RetrofitManager<T> {
     };
     return observer;
     }
-   /* private HttpListener listener;
+    /*private HttpListener listener;
 
     public void result(HttpListener listener){
         this.listener=listener;

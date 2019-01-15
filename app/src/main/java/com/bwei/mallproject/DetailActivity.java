@@ -3,6 +3,7 @@ package com.bwei.mallproject;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -19,8 +20,12 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import api.Apis;
+import bean.AddShoppingCarBean;
 import bean.EventBean;
 import bean.FindShoppingCartBean;
 import bean.GoodsBean;
@@ -36,7 +41,7 @@ import view.IView;
  *
  * **/
 public class DetailActivity extends AppCompatActivity implements IView {
-
+    private static final String TAG = "DetailActivity++++++++";
     @BindView(R.id.banner)
     Banner mBanner;
     @BindView(R.id.textPrice)
@@ -75,6 +80,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
     public void onEvent(EventBean eventBean) {
         if (eventBean.getName().equals("goods")) {
             goodsBean = (GoodsBean) eventBean.getClazz();
+            commodityId=goodsBean.getResult().getCommodityId();
             initLoad();
         }
     }
@@ -112,10 +118,14 @@ public class DetailActivity extends AppCompatActivity implements IView {
                 break;
             case R.id.webview:
                 break;
+                //加入购物车
+             //点击是先查询购物车，判断购物车中是否有相同的商品如果有数量加一，
+            // 如果没有相同的商品将商品加入购物车
             case R.id.add_shop:
-
+                 presenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,FindShoppingCartBean.class);
                 break;
             case R.id.btn_buy:
+                Toast.makeText(DetailActivity.this,"请耐心等待",Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -125,7 +135,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
           //先查询购物车,再添加到购物车
         if (data instanceof FindShoppingCartBean){
             FindShoppingCartBean findShoppingCartBean= (FindShoppingCartBean) data;
-            if (findShoppingCartBean==null||findShoppingCartBean.isSuccess()){
+            if (findShoppingCartBean==null|| !findShoppingCartBean.isSuccess()){
                 Toast.makeText(DetailActivity.this,findShoppingCartBean.getMessage(),Toast.LENGTH_SHORT).show();
             }else{
                 //实例化shoppingcarbean
@@ -140,6 +150,9 @@ public class DetailActivity extends AppCompatActivity implements IView {
                 getAddShoppingCar(list);
             }
 
+        }else if(data instanceof AddShoppingCarBean){
+            AddShoppingCarBean addShoppingCarBean= (AddShoppingCarBean) data;
+            Toast.makeText(DetailActivity.this,addShoppingCarBean.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -148,22 +161,33 @@ public class DetailActivity extends AppCompatActivity implements IView {
     @Override
     public void getDataFail(String error) {
 
+        Toast.makeText(DetailActivity.this, error, Toast.LENGTH_SHORT).show();
     }
     /**
      * 同步购物车
      * **/
     private void getAddShoppingCar(List<ShoppingCarBean> list) {
-         String str="[" ;
-        for (int i = 0; i <list.size() ; i++) {
-           if (Integer.valueOf(commodityId)==list.get(i).getCommodityId()){
-               int count=list.get(i).getCount();
-               count++;
-               list.get(i).setCount(count);
-               break;
-           }else{
-
-           }
+        String string="[";
+        for (int i=0;i<list.size();i++){
+            if(commodityId==list.get(i).getCommodityId()){
+                int count = list.get(i).getCount();
+                count++;
+                list.get(i).setCount(count);
+                break;
+            }else if(i==list.size()-1){
+                list.add(new ShoppingCarBean(commodityId,1));
+                break;
+            }
         }
+        for (ShoppingCarBean resultBean:list){
+            string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
+        }
+        String substring = string.substring(0, string.length() - 1);
+        substring+="]";
+
+        Map<String,String> map=new HashMap<>();
+        map.put("data",substring);
+        presenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT,map,AddShoppingCarBean.class);
     }
     private class GlideImageLoader extends ImageLoader {
         @Override

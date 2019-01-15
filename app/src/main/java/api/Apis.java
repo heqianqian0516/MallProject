@@ -72,11 +72,12 @@ public class Apis {
     /**
      * 查询购物车 http://172.17.8.100/small/order/verify/v1/findShoppingCart
      */
-    public static final String URL_FIND_SHOPPING_CART_GET="user/verify/v1/findShoppingCart";
+    public static final String URL_FIND_SHOPPING_CART_GET="order/verify/v1/findShoppingCart";
     /**
      * 同步购物车数据 http://172.17.8.100/small/order/verify/v1/syncShoppingCart
+     * http://172.17.8.100/small/order/verify/v1/syncShoppingCart
      */
-    public static final String URL_SYNC_SHOPPING_CART_PUT="user/verify/v1/syncShoppingCart";
+    public static final String URL_SYNC_SHOPPING_CART_PUT="order/verify/v1/syncShoppingCart";
     /**
      * 查询订单明细数据 http://172.17.8.100/small/order/verify/v1/findOrderInfo
      */

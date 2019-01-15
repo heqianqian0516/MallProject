@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MyWalletActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="@dimen/dp_312"
+        android:background="@mipmap/group"
+        android:layout_height="@dimen/dp_156"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:layout_marginRight="@dimen/dp_24"
+
+        >
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="余额"
+         android:textSize="@dimen/sp_18"
+         android:layout_marginTop="@dimen/dp_28"
+         android:layout_marginLeft="@dimen/dp_20"
+         android:layout_marginBottom="@dimen/dp_10"
+         />
+        <TextView
+            android:text="100.00"
+            android:textSize="64sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:textColor="#343434"
+            />
+    </LinearLayout>
+</LinearLayout>

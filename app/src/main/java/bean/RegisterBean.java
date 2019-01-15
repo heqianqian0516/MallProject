@@ -8,7 +8,7 @@ public class RegisterBean {
      * result : {"headPic":"http://172.17.8.100/images/small/head_pic/2018-11-21/20181121100733.jpg","nickName":"OP_8mY65","phone":"16619958760","sessionId":"154276714558512","sex":1,"userId":12}
      */
 
-    private LoginBean.ResultBean result;
+    private ResultBean result;
 
     public boolean isSuccess(){
         return message.equals(SUCCESS_CODE);
@@ -31,11 +31,11 @@ public class RegisterBean {
         this.message = message;
     }
 
-    public LoginBean.ResultBean getResult() {
+    public ResultBean getResult() {
         return result;
     }
 
-    public void setResult(LoginBean.ResultBean result) {
+    public void setResult(ResultBean result) {
         this.result = result;
     }
 

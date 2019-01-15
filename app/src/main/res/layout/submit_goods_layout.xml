@@ -7,14 +7,8 @@
     >
 
 
-        <CheckBox
-            android:id="@+id/child_cb"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
        <LinearLayout
+           android:layout_marginLeft="@dimen/dp_20"
            android:background="@drawable/goods_shop"
            android:orientation="horizontal"
            android:layout_marginBottom="@dimen/dp_15"

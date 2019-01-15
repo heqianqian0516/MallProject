@@ -4,7 +4,7 @@
     android:background="@drawable/first_horiz"
     android:layout_marginRight="@dimen/dp_10"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_view"

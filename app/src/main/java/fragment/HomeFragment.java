@@ -2,6 +2,7 @@ package fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -139,7 +140,7 @@ public class HomeFragment extends Fragment implements IView {
             @Override
             public void onClick(View v) {
                 //类目录
-                Toast.makeText(getActivity(), "点击了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "点击了", Toast.LENGTH_SHORT).show();
                 loadView1();
                 initPop();
 
@@ -196,11 +197,12 @@ public class HomeFragment extends Fragment implements IView {
         //设置焦点
         popupWindow.setFocusable(true);
         //设置背景
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
         //设置可触摸
         popupWindow.setTouchable(true);
         //设置位置
-        popupWindow.showAsDropDown(view, Gravity.CENTER_VERTICAL, 50, -340);
+        popupWindow.showAsDropDown(view, Gravity.CENTER_VERTICAL, 70, -340);
 
         categoryAdapter.setCatagralTwoCallBack(new SecondCategoryAdapter.CatagralTwoCallBack() {
             @Override
@@ -335,6 +337,8 @@ public class HomeFragment extends Fragment implements IView {
             Log.d(TAG, "getDataSuccess222: ++++"+findIdBean.toString());
             mScroll.setVisibility(View.GONE);
             mByRecy.setVisibility(View.VISIBLE);
+            FindIdAdapter findIdAdapter=new FindIdAdapter(getActivity());
+            mByRecy.setAdapter(findIdAdapter);
             findIdAdapter.setmData(findIdBean.getResult());
             findIdAdapter.setCatagralTwoCallBack(new SecondCategoryAdapter.CatagralTwoCallBack() {
                 @Override

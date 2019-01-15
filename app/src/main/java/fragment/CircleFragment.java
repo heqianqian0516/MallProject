@@ -23,7 +23,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import presenter.IPresenterImpl;
-
+/**
+ * 我的圈子列表展示
+ *
+ * **/
 public class CircleFragment extends Fragment implements IView {
     private static final String TAG = "CircleFragment++++++++";
 

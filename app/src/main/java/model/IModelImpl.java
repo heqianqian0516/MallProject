@@ -1,5 +1,8 @@
 package model;
 
+import android.util.Log;
+
+import com.bwei.mallproject.R;
 import com.google.gson.Gson;
 
 import java.util.Map;
@@ -65,17 +68,17 @@ public class IModelImpl implements IModel {
 
     @Override
     public void requestDataPut(String url, Map<String, String> params, final Class clazz, final MyCallBack myCallBack) {
-        RetrofitManager.getInstance().put(url, params, new RetrofitManager.HttpListener() {
+        RetrofitManager.getInstance().put(url,params,new  RetrofitManager.HttpListener() {
             @Override
             public void onSuccess(String data) {
                 try {
-                    Object o=new Gson().fromJson(data,clazz);
-                    if (myCallBack!=null){
+                    Object o = new Gson().fromJson(data, clazz);
+                    if (myCallBack != null) {
                         myCallBack.onSuccess(o);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    if (myCallBack!=null){
+                    if (myCallBack != null) {
                         myCallBack.onFail(e.getMessage());
                     }
                 }
@@ -83,9 +86,9 @@ public class IModelImpl implements IModel {
 
             @Override
             public void onFail(String error) {
-                   if (myCallBack!=null){
-                       myCallBack.onFail(error);
-                   }
+                if (myCallBack != null) {
+                    myCallBack.onFail(error);
+                }
             }
         });
     }

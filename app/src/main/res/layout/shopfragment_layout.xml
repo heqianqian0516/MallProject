@@ -45,7 +45,7 @@
             android:layout_height="@dimen/dp_50"
            android:background="#ff5e70"
             android:textColor="#ffffff"
-            android:text="去结算(0)" />
+            android:text="去结算" />
     </LinearLayout>
 
 

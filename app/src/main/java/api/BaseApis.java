@@ -24,9 +24,8 @@ public interface BaseApis<T> {
 
     @Multipart
     @POST
-    Observable<ResponseBody> postFormBody(@Url String url, @PartMap Map<String, RequestBody> requestBodyMap);
-
+    Observable<ResponseBody> postFormBody(@Url String url, @QueryMap Map<String, RequestBody> requestBodyMap);
     @PUT
-    Observable<ResponseBody> put(@Url String url,@PartMap Map<String,RequestBody> map);
+    Observable<ResponseBody> put(@Url String url,@QueryMap Map<String,String> map);
 
 }

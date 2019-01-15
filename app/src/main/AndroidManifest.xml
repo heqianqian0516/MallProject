@@ -3,6 +3,8 @@
     package="com.bwei.mallproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="app.MyApplication"
@@ -21,7 +23,14 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ShowActivity" />
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity" />
+        <activity android:name=".CityListActivity" />
+        <activity android:name=".AddAddressActivity" />
+        <activity android:name=".SubmitActivity" />
+        <activity android:name=".PersonalDataActivity" />
+        <activity android:name=".MainFootActivity" />
+        <activity android:name=".MyCircleActivity" />
+        <activity android:name=".MyWalletActivity"></activity>
     </application>
 
 </manifest>
