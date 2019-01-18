@@ -9,8 +9,15 @@ import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import adapter.MineFootAdapter;
+import adapter.SecondCategoryAdapter;
 import api.Apis;
+import bean.EventBean;
+import bean.GoodsBean;
 import bean.MineFootBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +34,10 @@ public class MainFootActivity extends AppCompatActivity implements IView {
     private IPresenterImpl presenter;
     private MineFootAdapter footAdapter;
     private int mPage;
+    private GoodsBean goodsBean;
+    private int commodityId;
+    private MineFootBean footBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +68,12 @@ public class MainFootActivity extends AppCompatActivity implements IView {
             }
         });
         loadData();
+     /*   footAdapter.setCatagralTwoCallBack(new SecondCategoryAdapter.CatagralTwoCallBack() {
+            @Override
+            public void callBack(int index) {
+                getGoods(footBean.getResult().get(index).getCommodityId());
+            }
+        });*/
     }
 
     private void loadData() {
@@ -77,8 +94,8 @@ public class MainFootActivity extends AppCompatActivity implements IView {
     @Override
     public void getDataSuccess(Object data) {
         if (data instanceof MineFootBean){
-            MineFootBean footBean= (MineFootBean) data;
-            if (footBean==null||!footBean.isSuccess()){
+            footBean = (MineFootBean) data;
+            if (footBean ==null||!footBean.isSuccess()){
                 Toast.makeText(MainFootActivity.this,
                         footBean.getMessage(),Toast.LENGTH_LONG).show();
             }else {
@@ -93,9 +110,30 @@ public class MainFootActivity extends AppCompatActivity implements IView {
             }
         }
     }
+  /*  private void getGoods(int id){
+        presenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET+"?commodityId="+id,null,GoodsBean.class);
 
+    }*/
     @Override
     public void getDataFail(String error) {
 
+    }
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+    public void onEvent(EventBean eventBean) {
+        if (eventBean.getName().equals("goods")) {
+            goodsBean = (GoodsBean) eventBean.getClazz();
+            commodityId=goodsBean.getResult().getCommodityId();
+           // initLoad();
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

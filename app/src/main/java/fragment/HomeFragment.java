@@ -109,10 +109,14 @@ public class HomeFragment extends Fragment implements IView {
         presenter = new IPresenterImpl(this);
         unbinder = ButterKnife.bind(this, view);
         mImgesUrl = new ArrayList<>();
-        mImgesUrl.add("http://172.17.8.100/images/small/banner/cj.png");
+        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/cj.png");
+        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/hzp.png");
+        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/lyq.png");
+        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/px.png");
+      /*  mImgesUrl.add("http://172.17.8.100/images/small/banner/cj.png");
         mImgesUrl.add("http://172.17.8.100/images/small/banner/hzp.png");
         mImgesUrl.add("http://172.17.8.100/images/small/banner/lyq.png");
-        mImgesUrl.add("http://172.17.8.100/images/small/banner/px.png");
+        mImgesUrl.add("http://172.17.8.100/images/small/banner/px.png");*/
         mXbanner.setData(mImgesUrl, null);
         //xbanner适配数据
         mXbanner.loadImage(new XBanner.XBannerAdapter() {
@@ -375,5 +379,20 @@ public class HomeFragment extends Fragment implements IView {
     @Override
     public void getDataFail(String error) {
 
+    }
+
+    //监听返回键
+    public void getBackData(boolean back) {
+        if (back) {
+
+           /* moreText.setVisibility(View.GONE);
+            moreImage.setVisibility(View.GONE);
+            categoryOneRecycle.setVisibility(View.GONE);
+            categoryTwoRecycle.setVisibility(View.GONE);*/
+            mByRecy.setVisibility(View.GONE);
+           /* imageView.setVisibility(View.GONE);*/
+            mHomeTv.setVisibility(View.GONE);
+            mScroll.setVisibility(View.VISIBLE);
+        }
     }
 }

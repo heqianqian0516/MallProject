@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_10"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/order_constr"
+        android:layout_width="@dimen/dp_312"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/cicle_bg"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/dingdan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单"
+            android:textColor="#666666"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="mark"
+            android:textColor="#666666"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintLeft_toRightOf="@id/dingdan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:textColor="#666666"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dingdan" />
+        <Button
+            android:id="@+id/payment_button"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="@id/recycle_title"
+            android:text="确认收货"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#ffffff"
+            android:background="#f00"
+            />
+        <TextView
+            android:id="@+id/company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/recycle_title"
+            app:layout_constraintTop_toBottomOf="@id/recycle_title"
+            android:text="派件公司"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#666666"
+            />
+        <TextView
+            android:id="@+id/unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/company"
+            app:layout_constraintTop_toTopOf="@id/company"
+            app:layout_constraintBottom_toBottomOf="@id/company"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#666666"
+            android:text="unit"
+            />
+        <TextView
+            android:id="@+id/numbers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/recycle_title"
+            app:layout_constraintTop_toBottomOf="@id/company"
+            android:text="快递单号"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#666666"
+            />
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/numbers"
+            app:layout_constraintTop_toTopOf="@id/numbers"
+            app:layout_constraintBottom_toBottomOf="@id/numbers"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#666666"
+            android:text="num"
+            />
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

@@ -27,7 +27,7 @@
           android:layout_height="@dimen/dp_26"
           android:button="@null"
           android:layout_weight="1"
-          android:background="@mipmap/tab_home_bottom_shouyes"
+          android:background="@mipmap/tab_home_bottom_shouye"
           android:layout_marginLeft="32dp"
           android:layout_gravity="center"
           android:layout_marginTop="@dimen/dp_10"
@@ -63,7 +63,7 @@
           android:button="@null"
           android:layout_weight="1"
           android:layout_marginTop="@dimen/dp_10"
-          android:background="@mipmap/tab_home_bottom_zhangdans"
+          android:background="@mipmap/tab_home_bottom_zhangdan"
           android:layout_marginRight="@dimen/dp_30"
           android:layout_gravity="center"
           />

@@ -30,7 +30,8 @@
         <activity android:name=".PersonalDataActivity" />
         <activity android:name=".MainFootActivity" />
         <activity android:name=".MyCircleActivity" />
-        <activity android:name=".MyWalletActivity"></activity>
+        <activity android:name=".MyWalletActivity" />
+        <activity android:name=".PayActivity"></activity>
     </application>
 
 </manifest>

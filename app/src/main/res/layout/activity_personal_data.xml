@@ -87,7 +87,7 @@
             android:layout_marginTop="@dimen/dp_10"
             />
         <TextView
-
+            android:id="@+id/myPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的密码"
@@ -99,7 +99,6 @@
             android:layout_marginTop="@dimen/dp_10"
             />
         <TextView
-            android:id="@+id/myPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"

@@ -3,8 +3,9 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
-    android:text="待评价"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
 </LinearLayout>

@@ -52,7 +52,7 @@ public class Apis {
     /**
      * 创建订单 http://172.17.8.100/small/order/verify/v1/createOrder
      */
-    public static final String URL_CREATE_ORDER_POST="user/verify/v1/createOrder";
+    public static final String URL_CREATE_ORDER_POST="order/verify/v1/createOrder";
     /**
      * 支付 http://172.17.8.100/small/order/verify/v1/pay
      */
@@ -60,7 +60,7 @@ public class Apis {
     /**
      * 根据订单状态查询订单信息 http://172.17.8.100/small/order/verify/v1/findOrderListByStatus
      */
-    public static final String URL_FIND_ORDER_LIST_BYSTATUS_GET="user/verify/v1/findUserWallet";
+    public static final String URL_FIND_ORDER_LIST_BYSTATUS_GET="order/verify/v1/findOrderListByStatus?status=%d&page=%d&count=%d";
     /**
      * 删除订单 http://172.17.8.100/small/order/verify/v1/deleteOrder
      */
@@ -68,7 +68,7 @@ public class Apis {
     /**
      * 收货 http://172.17.8.100/small/order/verify/v1/confirmReceipt
      */
-    public static final String URL_CONFIRM_RECEIPT_PUT="user/verify/v1/confirmReceipt";
+    public static final String URL_CONFIRM_RECEIPT_PUT="order/verify/v1/confirmReceipt";
     /**
      * 查询购物车 http://172.17.8.100/small/order/verify/v1/findShoppingCart
      */

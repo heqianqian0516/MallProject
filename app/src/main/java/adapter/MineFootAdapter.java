@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.bwei.mallproject.DetailActivity;
 import com.bwei.mallproject.R;
 
 
@@ -63,6 +65,13 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
                 new java.util.Date(mList.get(position).getBrowseTime()));
         footViewHolder.llsj.setText(date);
+        footViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext,DetailActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -83,5 +92,12 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             llcs=itemView.findViewById(R.id.llcs);
             llsj=itemView.findViewById(R.id.llsj);
         }
+    }
+    private SecondCategoryAdapter.CatagralTwoCallBack catagralTwoCallBack;
+    public void setCatagralTwoCallBack(SecondCategoryAdapter.CatagralTwoCallBack catagralTwoCallBack){
+        this.catagralTwoCallBack = catagralTwoCallBack;
+    }
+    public interface CatagralTwoCallBack{
+        void callBack(int index);
     }
 }

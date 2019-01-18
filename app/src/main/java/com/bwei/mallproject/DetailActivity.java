@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -58,6 +59,8 @@ public class DetailActivity extends AppCompatActivity implements IView {
     ImageView mAddShop;
     @BindView(R.id.btn_buy)
     ImageView mBtnBuy;
+    @BindView(R.id.back)
+    ImageView back;
     private GoodsBean goodsBean;
     private IPresenterImpl presenter;
     private int commodityId;
@@ -68,6 +71,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
         presenter = new IPresenterImpl(this);
+
     }
 
     @Override
@@ -91,6 +95,16 @@ public class DetailActivity extends AppCompatActivity implements IView {
         String[] split = picture.split(",");
         List<String> list = Arrays.asList(split);
         mWebview.loadDataWithBaseURL(null, details, "text/html", "utf-8", null);
+
+       // 设置可以支持缩放
+        mWebview.getSettings().setSupportZoom(true);
+       // 设置出现缩放工具
+        mWebview.getSettings().setBuiltInZoomControls(true);
+        //扩大比例的缩放
+        mWebview.getSettings().setUseWideViewPort(true);
+        //自适应屏幕
+      //  mWebview.getSettings().setLayoutAlgorithm(lay.SINGLE_COLUMN);
+        mWebview.getSettings().setLoadWithOverviewMode(true);
         mBanner.setImageLoader(new GlideImageLoader());
         mBanner.setImages(list);
         mBanner.start();
@@ -118,6 +132,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
                 break;
             case R.id.webview:
                 break;
+
                 //加入购物车
              //点击是先查询购物车，判断购物车中是否有相同的商品如果有数量加一，
             // 如果没有相同的商品将商品加入购物车
@@ -167,7 +182,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
      * 同步购物车
      * **/
     private void getAddShoppingCar(List<ShoppingCarBean> list) {
-        String string="[";
+       /* String string="[";
         for (int i=0;i<list.size();i++){
             if(commodityId==list.get(i).getCommodityId()){
                 int count = list.get(i).getCount();
@@ -183,10 +198,26 @@ public class DetailActivity extends AppCompatActivity implements IView {
             string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
         }
         String substring = string.substring(0, string.length() - 1);
-        substring+="]";
-
+        substring+="]";*/
+        if (list.size() == 0) {
+            list.add(new ShoppingCarBean(Integer.valueOf(commodityId), 1));
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                if (Integer.valueOf(commodityId) == list.get(i).getCommodityId()) {
+                    int count = list.get(i).getCount();
+                    count++;
+                    list.get(i).setCount(count);
+                    break;
+                } else if (i == list.size() - 1) {
+                    list.add(new ShoppingCarBean(Integer.valueOf(commodityId), 1));
+                    break;
+                }
+            }
+        }
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
         Map<String,String> map=new HashMap<>();
-        map.put("data",substring);
+        map.put("data",json);
         presenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT,map,AddShoppingCarBean.class);
     }
     private class GlideImageLoader extends ImageLoader {

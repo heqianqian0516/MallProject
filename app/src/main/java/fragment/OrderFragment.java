@@ -84,10 +84,10 @@ public class OrderFragment extends Fragment {
     private void initData() {
         List<Fragment> list=new ArrayList<>();
         list.add(new AllOrdersFragment());
-        list.add(new CompletedFragment());
-        list.add(new EvaluateFragment());
-        list.add(new GoodsFragment());
         list.add(new PayMentFragment());
+        list.add(new GoodsFragment());
+        list.add(new EvaluateFragment());
+        list.add(new CompletedFragment());
         ChildFragmentAdapter fragmentAdapter=new ChildFragmentAdapter(getChildFragmentManager(),list);
         mPurchaseViewPage.setAdapter(fragmentAdapter);
     }

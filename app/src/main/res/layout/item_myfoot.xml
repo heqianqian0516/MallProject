@@ -13,8 +13,8 @@
         >
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150"
             android:layout_gravity="center"
             app:srcCompat="@mipmap/ic_launcher_round"
             />

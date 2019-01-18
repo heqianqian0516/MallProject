@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bwei.mallproject.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
           holder.sdv.setImageURI(uri);
           String image = list.get(position).getImage().split("\\|")[0].replace("https", "http");
           Glide.with(context).load(image).into(holder.mImg1);
+        String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
+                new java.util.Date(list.get(position).getCreateTime()));
+        holder.times.setText(date);
     }
 
     @Override

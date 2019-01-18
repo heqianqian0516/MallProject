@@ -2,7 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <ImageView
+        android:id="@+id/back"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:src="@mipmap/back"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

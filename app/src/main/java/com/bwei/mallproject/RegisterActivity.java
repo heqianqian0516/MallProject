@@ -56,10 +56,7 @@ public class RegisterActivity extends AppCompatActivity implements IView {
            public void onClick(View v) {
                //请求网络
                loadData();
-               /*Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-               Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-               startActivity(intent);
-               finish();*/
+
            }
        });
         /*
@@ -97,10 +94,9 @@ public class RegisterActivity extends AppCompatActivity implements IView {
         if (data instanceof RegisterBean) {
             RegisterBean bean = (RegisterBean) data;
             if (bean == null || !bean.isSuccess()) {
-
                 Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(intent);
-                finish();
+
             }else {
                 Toast.makeText(RegisterActivity.this, bean.getMessage(), Toast.LENGTH_LONG).show();
             }

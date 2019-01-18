@@ -19,7 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class RetrofitManager<T> {
-    private String BASE_URL="http://172.17.8.100/small/";
+    private String BASE_URL="http://mobile.bwstudent.com/small/";
     private static RetrofitManager manager;
     private final BaseApis mBaseApis;
     private HttpListener httpListener;

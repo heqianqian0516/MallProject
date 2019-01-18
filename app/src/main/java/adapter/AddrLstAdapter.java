@@ -24,6 +24,7 @@ public class AddrLstAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<QueryAddrBean.ResultBean> mList;
     private Context mContext;
+    private Button adapterMyaddressBtnDelete;
 
     public AddrLstAdapter(Context mContext) {
         this.mContext = mContext;
@@ -59,6 +60,7 @@ public class AddrLstAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         });
+
         holder.adapterMyaddressBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
