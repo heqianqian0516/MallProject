@@ -20,6 +20,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import order.bean.OrderBean;
+
 /**
  * 待评价子条目Adaper
  * */
@@ -50,12 +52,21 @@ public class OrderRemaitItemAdaper extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         ViewHolderRemateItem holderRemateItem = (ViewHolderRemateItem) viewHolder;
         String imsge = mData.get(i).getCommodityPic().split("\\,")[0].replace("https","http");
         holderRemateItem.itemImage.setImageURI(Uri.parse(imsge));
         holderRemateItem.itemName.setText(mData.get(i).getCommodityName());
         holderRemateItem.itemPrice.setText("￥"+mData.get(i).getCommodityPrice());
+        //去评价
+        holderRemateItem.paymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(callBackRemaitItem!=null){
+                    callBackRemaitItem.callBack(mData.get(i));
+                }
+            }
+        });
     }
 
     @Override
@@ -78,5 +89,13 @@ public class OrderRemaitItemAdaper extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    //定义接口去评价
+    private CallBackRemaitItem callBackRemaitItem;
+    public void setCallBackRemaitItem(CallBackRemaitItem callBackRemaitItem){
+        this.callBackRemaitItem = callBackRemaitItem;
+    }
+    public interface CallBackRemaitItem{
+        void callBack(OrderBean.OrderListBean.DetailListBean dataBean);
     }
 }

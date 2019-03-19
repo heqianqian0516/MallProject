@@ -1,5 +1,6 @@
 package fragment.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,18 +13,24 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bwei.mallproject.R;
+import com.bwei.mallproject.RemaitActivity;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import java.util.List;
 
 import api.Apis;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import order.OrdelAllAdaper;
-import order.OrderBean;
+import mine.bean.DeleteCircleBean;
+import order.bean.DeleteOrderBean;
+import order.bean.OrderBean;
 import order.OrderRemaitAdaper;
 import presenter.IPresenterImpl;
 import view.IView;
-
+/**
+ * 待评价
+ * **/
 public class EvaluateFragment extends Fragment implements IView {
     @BindView(R.id.recycleview)
     XRecyclerView mRecycleview;
@@ -34,6 +41,8 @@ public class EvaluateFragment extends Fragment implements IView {
     private int page;
     private int count = 5;
     private OrderRemaitAdaper remaitAdaper;
+    private List<OrderBean.OrderListBean> orderList;
+
 
     @Nullable
     @Override
@@ -73,6 +82,58 @@ public class EvaluateFragment extends Fragment implements IView {
                 initLoad();
             }
         });
+        //删除
+        remaitAdaper.setCallBackDel(new OrderRemaitAdaper.CallBackDel() {
+            @Override
+            public void callBack(String orderId, int position) {
+                remaitAdaper.setDel(position);
+                presenter.startRequestDelete(String.format(Apis.URL_DELETE_ORDER_DELETE, orderId), DeleteOrderBean.class);
+            }
+        });
+        //去评价
+        remaitAdaper.setCallBackRemait(new OrderRemaitAdaper.CallBackRemait() {
+            @Override
+            public void callBackRem(String orderId, OrderBean.OrderListBean.DetailListBean dataBean) {
+                Intent intent=new Intent(getActivity(),RemaitActivity.class);
+                intent.putExtra("orderId", orderId);
+                intent.putExtra("dataBean", dataBean);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+
+    @Override
+    public void getDataSuccess(Object data) {
+        if (data instanceof OrderBean) {
+            OrderBean orderBean = (OrderBean) data;
+            orderList = orderBean.getOrderList();
+            if (orderBean == null || !orderBean.isSuccess()) {
+                Toast.makeText(getActivity(), orderBean.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                if (page == 1) {
+                    remaitAdaper.setmOrder(orderBean.getOrderList());
+                    remaitAdaper.notifyDataSetChanged();
+                } else {
+                    remaitAdaper.addmOrder(orderBean.getOrderList());
+                }
+                page++;
+                mRecycleview.loadMoreComplete();
+                mRecycleview.refreshComplete();
+                remaitAdaper.notifyDataSetChanged();
+            }
+        }
+        else if (data instanceof DeleteOrderBean){
+            DeleteOrderBean deleteOrderBean= (DeleteOrderBean) data;
+
+            Toast.makeText(getActivity(),deleteOrderBean.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void getDataFail(String error) {
+
     }
 
     @Override
@@ -80,29 +141,5 @@ public class EvaluateFragment extends Fragment implements IView {
         super.onDestroyView();
         unbinder.unbind();
         presenter.onDetach();
-    }
-
-    @Override
-    public void getDataSuccess(Object data) {
-        if (data instanceof OrderBean) {
-            OrderBean orderBean = (OrderBean) data;
-            if (orderBean == null || !orderBean.isSuccess()) {
-                Toast.makeText(getActivity(), orderBean.getMessage(), Toast.LENGTH_SHORT).show();
-            } else {
-                if (page == 1) {
-                    remaitAdaper.setmOrder(orderBean.getOrderList());
-                } else {
-                    remaitAdaper.addmOrder(orderBean.getOrderList());
-                }
-                page++;
-                mRecycleview.loadMoreComplete();
-                mRecycleview.refreshComplete();
-            }
-        }
-    }
-
-    @Override
-    public void getDataFail(String error) {
-
     }
 }

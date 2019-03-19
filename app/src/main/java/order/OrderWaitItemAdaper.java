@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import order.bean.OrderBean;
 
 /**
  * 待收货子布局Adaper

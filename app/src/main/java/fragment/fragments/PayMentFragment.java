@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,12 +22,16 @@ import api.Apis;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import order.OrdelAllAdaper;
-import order.OrderBean;
+
+import fragment.OrderFragment;
+import order.bean.DeleteOrderBean;
+import order.bean.OrderBean;
 import order.OrderObligationAdaper;
 import presenter.IPresenterImpl;
 import view.IView;
-
+/**
+ * 代付款
+ * **/
 public class PayMentFragment extends Fragment implements IView {
     @BindView(R.id.recycleview)
     XRecyclerView mRecycleview;
@@ -42,11 +48,12 @@ public class PayMentFragment extends Fragment implements IView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.payment_layout, null);
         presenter = new IPresenterImpl(this);
-        initLoad();
+
         unbinder = ButterKnife.bind(this, view);
         return view;
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -72,7 +79,8 @@ public class PayMentFragment extends Fragment implements IView {
                 initLoad();
             }
         });
-        initLoad();
+
+        //去支付
       obligationAdaper.setCallBackPay(new OrderObligationAdaper.CallBackPay() {
           @Override
           public void callBack(String orderId, Double payAmount) {
@@ -82,8 +90,17 @@ public class PayMentFragment extends Fragment implements IView {
               startActivity(intent);
           }
       });
-    }
+      //取消订单
 
+       obligationAdaper.setCallBackAll(new OrderObligationAdaper.CallBackObligation() {
+           @Override
+           public void callBack(String orderId, int position) {
+               obligationAdaper.setDel(position);
+               presenter.startRequestDelete(String.format(Apis.URL_DELETE_ORDER_DELETE,orderId), DeleteOrderBean.class);
+           }
+       });
+    }
+    //请求网络根据订单状态查询订单信息
     private void initLoad() {
         presenter.startRequestGet(String.format(Apis.URL_FIND_ORDER_LIST_BYSTATUS_GET, status, page, count), null, OrderBean.class);
 
@@ -92,7 +109,7 @@ public class PayMentFragment extends Fragment implements IView {
     @Override
     public void getDataSuccess(Object data) {
         if (data instanceof OrderBean) {
-            OrderBean orderBean = (OrderBean) data;
+            OrderBean orderBean= (OrderBean) data;
             if (orderBean == null || !orderBean.isSuccess()) {
                 Toast.makeText(getActivity(), orderBean.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
@@ -104,6 +121,7 @@ public class PayMentFragment extends Fragment implements IView {
                 page++;
                 mRecycleview.loadMoreComplete();
                 mRecycleview.refreshComplete();
+                obligationAdaper.notifyDataSetChanged();
             }
         }
     }

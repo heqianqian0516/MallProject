@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,34 +23,22 @@ import api.Apis;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import order.OrdelAllAdaper;
-import order.OrderBean;
-import order.TakeBean;
+
+import order.adapter.OrdelAllAdaper;
+import order.bean.DeleteOrderBean;
+import order.bean.OrderBean;
+import order.bean.TakeBean;
 import presenter.IPresenterImpl;
 import view.IView;
-
+/**
+ *
+ * 所有订单
+ * **/
 public class AllOrdersFragment extends Fragment implements IView {
     private static final String TAG = "AllOrdersFragment+++++++";
     @BindView(R.id.recycleview)
     XRecyclerView mRecycleview;
-   /* @BindView(R.id.dingdan)
-    TextView mDingdan;
-    @BindView(R.id.dingdanhao)
-    TextView mDingdanhao;
-    @BindView(R.id.allordersDate)
-    TextView mAllordersDate;
-    @BindView(R.id.allordersRecycle)
-    RecyclerView mAllordersRecycle;
-    @BindView(R.id.relativeTv4)
-    TextView mRelativeTv4;
-    @BindView(R.id.allordersCount)
-    TextView mAllordersCount;
-    @BindView(R.id.relativeTv5)
-    TextView mRelativeTv5;
-    @BindView(R.id.allordersPrice)
-    TextView mAllordersPrice;
-    @BindView(R.id.yuan)
-    TextView mYuan;*/
+
 
     private View view;
     private Unbinder unbinder;
@@ -76,9 +63,13 @@ public class AllOrdersFragment extends Fragment implements IView {
         super.onViewCreated(view, savedInstanceState);
         //  loadData();
         page = 1;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
-        mRecycleview.setLayoutManager(linearLayoutManager);
+
+        unbinder = ButterKnife.bind(this, view);
+        //创建布局管理器
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(OrientationHelper.VERTICAL);
+        mRecycleview.setLayoutManager(layoutManager);
+        //创建适配器
         ordelAllAdaper = new OrdelAllAdaper(getActivity());
         mRecycleview.setAdapter(ordelAllAdaper);
         mRecycleview.setPullRefreshEnabled(true);
@@ -95,12 +86,19 @@ public class AllOrdersFragment extends Fragment implements IView {
                 loadData();
             }
         });
-        loadData();
+        //取消订单
+        ordelAllAdaper.setCallBackDel(new OrdelAllAdaper.CallBackDel() {
+            @Override
+            public void callBack(String orderId, int position) {
+                ordelAllAdaper.setDel(position);
+                presenter.startRequestDelete(String.format(Apis.URL_DELETE_ORDER_DELETE,orderId),DeleteOrderBean.class);
+            }
+        });
         //去支付
         ordelAllAdaper.setCallBackPay(new OrdelAllAdaper.CallBackPay() {
             @Override
             public void callBack(String orderId, Double payAmount) {
-                Intent intent=new Intent(getActivity(),PayActivity.class);
+                Intent intent = new Intent(getActivity(),PayActivity.class);
                 intent.putExtra("orderId",orderId);
                 intent.putExtra("payAmount",payAmount);
                 startActivity(intent);
@@ -110,11 +108,12 @@ public class AllOrdersFragment extends Fragment implements IView {
         ordelAllAdaper.setCallBackWait(new OrdelAllAdaper.CallBackWait() {
             @Override
             public void callBack(String orderId) {
-                Map<String,String> map=new HashMap<>();
+                Map<String,String> map = new HashMap<>();
                 map.put("orderId",orderId);
-                presenter.startRequestPut(Apis.URL_CONFIRM_RECEIPT_PUT,null,TakeBean.class);
+                presenter.startRequestPut(Apis.URL_CONFIRM_RECEIPT_PUT,map,TakeBean.class);
             }
         });
+
     }
 
     private void loadData() {
@@ -124,23 +123,23 @@ public class AllOrdersFragment extends Fragment implements IView {
     @Override
     public void getDataSuccess(Object data) {
         // Log.d(TAG, "getDataSuccess: +++++++" + OrderBean.class);
-        if (data instanceof OrderBean) {
+        if(data instanceof OrderBean){
             OrderBean orderBean = (OrderBean) data;
-            if (orderBean == null || !orderBean.isSuccess()) {
-                Toast.makeText(getActivity(), orderBean.getMessage(), Toast.LENGTH_SHORT).show();
-            } else {
-                if (page == 1) {
+            if(orderBean==null || !orderBean.isSuccess()){
+                Toast.makeText(getActivity(),orderBean.getMessage(),Toast.LENGTH_SHORT).show();
+            }else{
+                if(page == 1){
                     ordelAllAdaper.setmOrder(orderBean.getOrderList());
-                } else {
+                }else{
                     ordelAllAdaper.addmOrder(orderBean.getOrderList());
                 }
                 page++;
                 mRecycleview.loadMoreComplete();
                 mRecycleview.refreshComplete();
             }
-        }else if (data instanceof TakeBean){
-              TakeBean takeBean= (TakeBean) data;
-              Toast.makeText(getActivity(),takeBean.getMessage(),Toast.LENGTH_SHORT).show();
+        }else if(data instanceof TakeBean){
+            TakeBean takeBean = (TakeBean) data;
+            Toast.makeText(getActivity(),takeBean.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 

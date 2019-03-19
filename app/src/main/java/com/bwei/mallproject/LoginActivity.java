@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements IView {
     final String PASSWORD_PREF = "password";
     private SharedPreferences sp;
     private CircleFragment circleFragment;
-
+    private final int RERUEST_NUM = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements IView {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, RERUEST_NUM);
             }
         });
         //从 SharedPreferences 中获取【是否记住密码】参数
@@ -186,4 +186,15 @@ public class LoginActivity extends AppCompatActivity implements IView {
         iPresenter.onDetach();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RERUEST_NUM && resultCode == 200) {
+            //接收注册成功的值
+            String name = data.getStringExtra("name");
+            String password = data.getStringExtra("password");
+            mEtAccount.setText(name);
+            mEtAccounts.setText(password);
+        }
+    }
 }

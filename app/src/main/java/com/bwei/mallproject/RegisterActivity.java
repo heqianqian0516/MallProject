@@ -15,15 +15,18 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
-import view.IView;
 import api.Apis;
+import util.EmptyUtil;
 import bean.RegisterBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import presenter.IPresenterImpl;
+import view.IView;
+
 /**
  * 注册页面
- * **/
+ **/
 public class RegisterActivity extends AppCompatActivity implements IView {
     private static final String TAG = "RegisterActivity+++++++";
     @BindView(R.id.img_account)
@@ -43,34 +46,48 @@ public class RegisterActivity extends AppCompatActivity implements IView {
     @BindView(R.id.btn_regist)
     Button mBtnRegist;
     private IPresenterImpl iPresenter;
-
+    private String name;
+    private String password;
+    private final int RESULT_NUM = 200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initPresenter();
         ButterKnife.bind(this);
-      //  loadData();
-       mBtnRegist.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               //请求网络
-               loadData();
+        //  loadData();
+        mBtnRegist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //请求网络
+                loadData();
 
-           }
-       });
+            }
+        });
         /*
          * 密码可见或隐藏
          * */
         mImgEye.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mEtPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }else if (event.getAction()==MotionEvent.ACTION_UP){
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     mEtPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 return false;
+            }
+        });
+        mBtnRegist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                name = mEtAccount.getText().toString().trim();
+                password = mEtPwd.getText().toString().trim();
+                if (EmptyUtil.isNull(name, password)) {
+                    loadData();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "手机号和密码不能为空", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -82,9 +99,9 @@ public class RegisterActivity extends AppCompatActivity implements IView {
 
     private void loadData() {
         Map<String, String> hashMap = new HashMap<>();
-        hashMap.put("phone",mEtAccount.getText().toString().trim());
-        hashMap.put("pwd",mEtPwd.getText().toString().trim());
-      //  hashMap.put(Constants.MAP_KEY_SEARCH_PRODUCTS_PHONE, mEtAccount.getText().toString());
+        hashMap.put("phone", mEtAccount.getText().toString().trim());
+        hashMap.put("pwd", mEtPwd.getText().toString().trim());
+        //  hashMap.put(Constants.MAP_KEY_SEARCH_PRODUCTS_PHONE, mEtAccount.getText().toString());
         //hashMap.put(Constants.MAP_KEY_SEARCH_PRODUCTS_PWD, mEtPwd.getText().toString());
         iPresenter.startRequestPost(Apis.URL_REGISTER_POST, hashMap, RegisterBean.class);
     }
@@ -93,12 +110,23 @@ public class RegisterActivity extends AppCompatActivity implements IView {
     public void getDataSuccess(Object data) {
         if (data instanceof RegisterBean) {
             RegisterBean bean = (RegisterBean) data;
-            if (bean == null || !bean.isSuccess()) {
-                Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(intent);
-
-            }else {
+            if (bean == null ) {
                 Toast.makeText(RegisterActivity.this, bean.getMessage(), Toast.LENGTH_LONG).show();
+
+
+                /*intent.putExtra("name",name);
+                intent.putExtra("password",password);
+                setResult(RESULT_NUM,intent);*/
+
+
+
+            } else {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.putExtra("name",name);
+                intent.putExtra("password",password);
+                setResult(RESULT_NUM,intent);
+                finish();
+                //startActivity(intent);
             }
         }
 
@@ -110,9 +138,13 @@ public class RegisterActivity extends AppCompatActivity implements IView {
         Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_LONG).show();
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         iPresenter.onDetach();
     }
+
+
+
 }

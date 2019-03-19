@@ -20,14 +20,16 @@ import fragment.HomeFragment;
 import fragment.MyFragment;
 import fragment.OrderFragment;
 import fragment.ShopFragment;
-  /**
+import view.NoScrollViewPager;
+
+/**
    *
    * 主页面
    * **/
 public class ShowActivity extends AppCompatActivity {
 
     @BindView(R.id.view_page)
-    ViewPager mViewPage;
+    NoScrollViewPager mViewPage;
     @BindView(R.id.iamge1)
     RadioButton mIamge1;
     @BindView(R.id.iamge2)
@@ -73,6 +75,22 @@ public class ShowActivity extends AppCompatActivity {
                 }
             }
         });
+      /*  mViewPage.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mRedioGroup.check(mRedioGroup.getChildAt(position).getId());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });*/
     }
 
     private void initData() {

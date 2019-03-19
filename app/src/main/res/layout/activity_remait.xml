@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/item_const"
+        android:layout_width="@dimen/dp_292"
+        android:layout_height="@dimen/dp_97"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@drawable/order_all_item_shape"
+        android:padding="@dimen/dp_8"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_image"
+            android:layout_width="@dimen/dp_81"
+            android:layout_height="@dimen/dp_81"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="name"
+            android:textColor="#666666"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintLeft_toRightOf="@id/item_image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_image" />
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="price"
+            android:textColor="#ff0606"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintBottom_toBottomOf="@id/item_image"
+            app:layout_constraintLeft_toRightOf="@id/item_image" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/con"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_120"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/remait_write_shape"
+        app:layout_constraintLeft_toLeftOf="@id/item_const"
+        app:layout_constraintRight_toRightOf="@id/item_const"
+        app:layout_constraintTop_toBottomOf="@id/item_const">
+
+        <EditText
+            android:id="@+id/write_remate"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请在此写下你的商品评价"
+            android:textColor="#666"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/conn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/remait_image_shape"
+        app:layout_constraintLeft_toLeftOf="@id/con"
+        app:layout_constraintRight_toRightOf="@id/con"
+        app:layout_constraintTop_toBottomOf="@id/con">
+        <!--展示上传的图片-->
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:columnWidth="60dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <RadioButton
+        android:id="@+id/radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintLeft_toLeftOf="@id/conn"
+        app:layout_constraintTop_toBottomOf="@id/conn" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:text="同步到圈子"
+        android:textColor="#666666"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/radio"
+        app:layout_constraintLeft_toRightOf="@id/radio"
+        app:layout_constraintTop_toTopOf="@id/radio" />
+
+    <Button
+        android:id="@+id/publish"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:background="@drawable/order_button_payment_shape"
+        android:text="发表"
+        android:textColor="#fff"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

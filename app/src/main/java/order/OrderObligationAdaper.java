@@ -21,6 +21,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import order.adapter.OrderAllItemAdaper;
+import order.bean.OrderBean;
+
 /**
  * 待付款一级Recycleview的Adaper
  * */
@@ -41,6 +44,7 @@ public class OrderObligationAdaper extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
     public void addmOrder(List<OrderBean.OrderListBean> orders){
+        mOrder.clear();
         if(orders!=null){
             mOrder.addAll(orders);
         }

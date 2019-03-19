@@ -1,6 +1,7 @@
 package com.bwei.mallproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -59,8 +60,8 @@ public class DetailActivity extends AppCompatActivity implements IView {
     ImageView mAddShop;
     @BindView(R.id.btn_buy)
     ImageView mBtnBuy;
-    @BindView(R.id.back)
-    ImageView back;
+   /* @BindView(R.id.back)
+    ImageView back;*/
     private GoodsBean goodsBean;
     private IPresenterImpl presenter;
     private int commodityId;
@@ -71,13 +72,28 @@ public class DetailActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
         presenter = new IPresenterImpl(this);
+        Intent intent = getIntent();
+        commodityId = intent.getIntExtra("commodityId", 0);
+      //  presenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET + "?commodityId=" + commodityId, null, GoodsBean.class);
+         presenter.startRequestGet(String.format(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET,commodityId),null,GoodsBean.class);
+       /* //返回
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailActivity.this.finish();
 
+            }
+        });*/
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+      //  EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+        {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
@@ -90,7 +106,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
     }
 
     private void initLoad() {
-        String details = goodsBean.getResult().getDetails();
+         String details = goodsBean.getResult().getDetails();
         String picture = goodsBean.getResult().getPicture();
         String[] split = picture.split(",");
         List<String> list = Arrays.asList(split);
@@ -182,23 +198,7 @@ public class DetailActivity extends AppCompatActivity implements IView {
      * 同步购物车
      * **/
     private void getAddShoppingCar(List<ShoppingCarBean> list) {
-       /* String string="[";
-        for (int i=0;i<list.size();i++){
-            if(commodityId==list.get(i).getCommodityId()){
-                int count = list.get(i).getCount();
-                count++;
-                list.get(i).setCount(count);
-                break;
-            }else if(i==list.size()-1){
-                list.add(new ShoppingCarBean(commodityId,1));
-                break;
-            }
-        }
-        for (ShoppingCarBean resultBean:list){
-            string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
-        }
-        String substring = string.substring(0, string.length() - 1);
-        substring+="]";*/
+
         if (list.size() == 0) {
             list.add(new ShoppingCarBean(Integer.valueOf(commodityId), 1));
         } else {
@@ -231,5 +231,10 @@ public class DetailActivity extends AppCompatActivity implements IView {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

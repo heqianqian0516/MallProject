@@ -1,5 +1,6 @@
 package com.bwei.mallproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,8 +35,8 @@ public class MainFootActivity extends AppCompatActivity implements IView {
     private IPresenterImpl presenter;
     private MineFootAdapter footAdapter;
     private int mPage;
-    private GoodsBean goodsBean;
-    private int commodityId;
+
+
     private MineFootBean footBean;
 
     @Override
@@ -52,7 +53,6 @@ public class MainFootActivity extends AppCompatActivity implements IView {
         footAdapter=new MineFootAdapter(this);
         mXrecycle.setLayoutManager(new StaggeredGridLayoutManager(2,GridLayoutManager.VERTICAL));
         mXrecycle.setAdapter(footAdapter);
-
         mXrecycle.setLoadingMoreEnabled(true);
         mXrecycle.setPullRefreshEnabled(true);
         mXrecycle.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -67,13 +67,15 @@ public class MainFootActivity extends AppCompatActivity implements IView {
                 loadData();
             }
         });
-        loadData();
-     /*   footAdapter.setCatagralTwoCallBack(new SecondCategoryAdapter.CatagralTwoCallBack() {
+        footAdapter.setCallBackFoot(new MineFootAdapter.CallBackFoot() {
             @Override
-            public void callBack(int index) {
-                getGoods(footBean.getResult().get(index).getCommodityId());
+            public void callBack(int commodityId) {
+                Intent intent=new Intent(MainFootActivity.this,DetailActivity.class);
+                intent.putExtra("commodityId",commodityId);
+                startActivity(intent);
             }
-        });*/
+        });
+
     }
 
     private void loadData() {
@@ -110,30 +112,18 @@ public class MainFootActivity extends AppCompatActivity implements IView {
             }
         }
     }
-  /*  private void getGoods(int id){
-        presenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET+"?commodityId="+id,null,GoodsBean.class);
 
-    }*/
+
     @Override
     public void getDataFail(String error) {
 
     }
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
-    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
-    public void onEvent(EventBean eventBean) {
-        if (eventBean.getName().equals("goods")) {
-            goodsBean = (GoodsBean) eventBean.getClazz();
-            commodityId=goodsBean.getResult().getCommodityId();
-           // initLoad();
-        }
-    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+       presenter.onDetach();
     }
 }

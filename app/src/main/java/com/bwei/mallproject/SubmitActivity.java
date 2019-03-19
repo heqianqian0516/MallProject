@@ -29,6 +29,7 @@ import java.util.Map;
 import api.Apis;
 import bean.AddAddrBean;
 import bean.EventBean;
+import bean.NewAddressData;
 import bean.QueryBean;
 import bean.ShoppingCarBean;
 import bean.ShowShoppingBean;
@@ -41,9 +42,10 @@ import presenter.IPresenterImpl;
 import shoppingadress.AddressListBean;
 import shoppingadress.PopupAddrAdapter;
 import view.IView;
+
 /**
  * 提交订单
- * **/
+ **/
 public class SubmitActivity extends AppCompatActivity implements IView {
 
 
@@ -82,6 +84,7 @@ public class SubmitActivity extends AppCompatActivity implements IView {
     private PopupAddrAdapter addrAdapter;
     private List<AddressListBean.ResuleBean> result;
     private AddressListBean.ResuleBean resuleBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +96,7 @@ public class SubmitActivity extends AppCompatActivity implements IView {
     private void initView() {
         addrAdapter = new PopupAddrAdapter(this);
         persenter = new IPresenterImpl(this);
-        persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET,null, AddressListBean.class);
+        persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET, null, NewAddressData.class);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mAllordersRecycle.setLayoutManager(manager);
@@ -108,12 +111,12 @@ public class SubmitActivity extends AppCompatActivity implements IView {
         mPopupTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET,null, AddressListBean.class);
+                persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET, null, AddressListBean.class);
                 popupWindows.showAsDropDown(view);
             }
         });
         View view = View.inflate(SubmitActivity.this, R.layout.popup_addr, null);
-        popupWindows = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
+        popupWindows = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindows.setFocusable(true);
         popupWindows.setTouchable(true);
@@ -128,9 +131,9 @@ public class SubmitActivity extends AppCompatActivity implements IView {
             @Override
             public void callBack(int i) {
                 resuleBean = result.get(i);
-                Map<String,String> map=new HashMap<>();
-                map.put("id",resuleBean.getId());
-                persenter.startRequestPost(Apis.URL_SET_DEFAULT_RECEIVE_ADDRESS_POST,map, AddAddrBean.class);
+                Map<String, String> map = new HashMap<>();
+                map.put("id", resuleBean.getId());
+                persenter.startRequestPost(Apis.URL_SET_DEFAULT_RECEIVE_ADDRESS_POST, map, AddAddrBean.class);
                 popupWindows.dismiss();
             }
         });
@@ -164,29 +167,30 @@ public class SubmitActivity extends AppCompatActivity implements IView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.addAddress:
-                persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET,null, AddressListBean.class);
+                persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET, null, NewAddressData.class);
                 popupWindows.showAsDropDown(view);
                 break;
             case R.id.tjdd:
-                Map<String,String> map=new HashMap<>();
-                List<QueryBean> lists=new ArrayList<>();
+                Map<String, String> map = new HashMap<>();
+                List<QueryBean> lists = new ArrayList<>();
                 for (int i = 0; i < list.getResult().size(); i++) {
-                    if (list.getResult().get(i).isItem_check()){
+                    if (list.getResult().get(i).isItem_check()) {
                         int commodityId = list.getResult().get(i).getCommodityId();
                         int amount = list.getResult().get(i).getCount();
-                        lists.add(new QueryBean(commodityId,amount));
+                        lists.add(new QueryBean(commodityId, amount));
                     }
                 }
                 String s = new Gson().toJson(lists);
-                map.put("orderInfo",s);
-                map.put("totalPrice",mAllordersPrice.getText().toString());
-                map.put("addressId",resuleBean.getId());
-                persenter.startRequestPost(Apis.URL_CREATE_ORDER_POST,map,AddAddrBean.class);
+                map.put("orderInfo", s);
+                map.put("totalPrice", mAllordersPrice.getText().toString());
+                map.put("addressId", resuleBean.getId());
+                persenter.startRequestPost(Apis.URL_CREATE_ORDER_POST, map, AddAddrBean.class);
                 break;
             default:
                 break;
         }
     }
+
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
     public void onEvent(EventBean evBean) {
         if (evBean.getName().equals("list")) {
@@ -204,12 +208,12 @@ public class SubmitActivity extends AppCompatActivity implements IView {
         mSaddAddress.setVisibility(View.VISIBLE);
         mAddAddress.setVisibility(View.INVISIBLE);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
-     //  EventBus.getDefault().register(this);
-        if (!EventBus.getDefault().isRegistered(this))
-        {
+        //  EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
     }
@@ -217,39 +221,48 @@ public class SubmitActivity extends AppCompatActivity implements IView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
+
     @Override
     public void getDataSuccess(Object data) {
-        if (data instanceof AddressListBean) {
+        if (data instanceof NewAddressData) {
+            NewAddressData newAddressData = (NewAddressData) data;
+            if (newAddressData.getMessage().equals("你还没有收货地址，快去添加吧")) {
+                Toast.makeText(this, newAddressData.getMessage(), Toast.LENGTH_SHORT).show();
+            }else{
+                persenter.startRequestGet(Apis.URL_RECEIVE_ADDRESS_GET, null, AddressListBean.class);
+            }
+        }else if (data instanceof AddressListBean) {
             AddressListBean bean = (AddressListBean) data;
             result = bean.getResult();
+
             for (int i = 0; i < result.size(); i++) {
                 String whetherDefault = result.get(i).getWhetherDefault();
-                if (Integer.parseInt(whetherDefault)==1){
+                if (Integer.parseInt(whetherDefault) == 1) {
                     resuleBean = result.get(i);
                     setaddr(resuleBean);
                 }
             }
             addrAdapter.setList(result);
         }
-        if (data instanceof AddAddrBean){
-            AddAddrBean regBean= (AddAddrBean) data;
-            if (regBean.getStatus().equals("0000")){
+        if (data instanceof AddAddrBean) {
+            AddAddrBean regBean = (AddAddrBean) data;
+            if (regBean.getStatus().equals("0000")) {
                 setaddr(resuleBean);
             }
-            Toast.makeText(SubmitActivity.this,regBean.getMessage(),Toast.LENGTH_SHORT).show();
-        }else if(data instanceof AddAddrBean){
+            Toast.makeText(SubmitActivity.this, regBean.getMessage(), Toast.LENGTH_SHORT).show();
+        } else if (data instanceof AddAddrBean) {
             AddAddrBean addAddrBean = (AddAddrBean) data;
-            Toast.makeText(SubmitActivity.this,addAddrBean.getMessage(),Toast.LENGTH_SHORT).show();
-        }else if(data instanceof String){
+            Toast.makeText(SubmitActivity.this, addAddrBean.getMessage(), Toast.LENGTH_SHORT).show();
+        } else if (data instanceof String) {
             String str = (String) data;
-            Toast.makeText(SubmitActivity.this,str,Toast.LENGTH_SHORT).show();
+            Toast.makeText(SubmitActivity.this, str, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void getDataFail(String error) {
-        Toast.makeText(SubmitActivity.this,error,Toast.LENGTH_LONG).show();
+        Toast.makeText(SubmitActivity.this, error, Toast.LENGTH_LONG).show();
     }
 }

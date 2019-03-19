@@ -27,6 +27,7 @@ import fragment.fragments.GoodsFragment;
 import fragment.fragments.PayMentFragment;
 
 public class OrderFragment extends Fragment {
+
     @BindView(R.id.allorders)
     RadioButton mAllorders;
     @BindView(R.id.obligation)
@@ -43,6 +44,9 @@ public class OrderFragment extends Fragment {
     ViewPager mPurchaseViewPage;
     private View view;
     private Unbinder unbinder;
+    private List<Fragment> list;
+    private PayMentFragment payMentFragment;
+
 
     @Nullable
     @Override
@@ -82,15 +86,16 @@ public class OrderFragment extends Fragment {
 
 
     private void initData() {
-        List<Fragment> list=new ArrayList<>();
+        list = new ArrayList<>();
         list.add(new AllOrdersFragment());
         list.add(new PayMentFragment());
         list.add(new GoodsFragment());
         list.add(new EvaluateFragment());
         list.add(new CompletedFragment());
-        ChildFragmentAdapter fragmentAdapter=new ChildFragmentAdapter(getChildFragmentManager(),list);
+        ChildFragmentAdapter fragmentAdapter=new ChildFragmentAdapter(getChildFragmentManager(), list);
         mPurchaseViewPage.setAdapter(fragmentAdapter);
     }
+
 
     @Override
     public void onDestroyView() {

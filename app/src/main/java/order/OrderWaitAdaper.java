@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import order.bean.OrderBean;
 
 /**
  * 待收货一级Adaper
@@ -37,7 +38,7 @@ public class OrderWaitAdaper extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setmOrder(List<OrderBean.OrderListBean> orders) {
-        mOrder.clear();
+        //mOrder.clear();
         if (orders != null) {
             mOrder.addAll(orders);
         }

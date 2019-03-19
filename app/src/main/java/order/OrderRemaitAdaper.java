@@ -20,6 +20,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import order.bean.OrderBean;
+
 /**
  * 待评价一级Adaper
  * */
@@ -78,6 +80,15 @@ public class OrderRemaitAdaper extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             }
         });
+        //回调
+        remaitItemAdaper.setCallBackRemaitItem(new OrderRemaitItemAdaper.CallBackRemaitItem() {
+            @Override
+            public void callBack(OrderBean.OrderListBean.DetailListBean dataBean) {
+                if(callBackRemait!=null){
+                    callBackRemait.callBackRem(mOrder.get(i).getOrderId(),dataBean);
+                }
+            }
+        });
     }
 
     @Override
@@ -108,5 +119,13 @@ public class OrderRemaitAdaper extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
     public interface CallBackDel{
         void callBack(String orderId, int position);
+    }
+    //定义接口回传值
+    private CallBackRemait callBackRemait;
+    public void setCallBackRemait(CallBackRemait callBackRemait){
+        this.callBackRemait = callBackRemait;
+    }
+    public interface CallBackRemait{
+        void callBackRem(String orderId,OrderBean.OrderListBean.DetailListBean dataBean);
     }
 }

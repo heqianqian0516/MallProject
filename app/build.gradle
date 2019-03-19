@@ -9,6 +9,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        packagingOptions {
+            exclude 'META-INF/rxjava.properties'
+        }
+
     }
     buildTypes {
         release {
@@ -16,6 +21,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '27.1.1'//根据你的底下appcompat-v7版本
+                }
+            }
+        }
+    }
+
 }
 
 dependencies {
@@ -34,6 +50,8 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
+
+    //retrofit依赖
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.interceptor"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.converterGson"
@@ -41,6 +59,8 @@ dependencies {
     implementation "io.reactivex:rxjava:$rootProject.rxjava"
     implementation "com.hwangjr.rxbus:rxbus:$rootProject.rxbus"
     implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.adapterRxjava"
+
+
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.xhb:xbanner:1.5.1'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
@@ -51,6 +71,17 @@ dependencies {
         exclude group: 'com.android.support'
     }*/
 
-    implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
 
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
+    //xrecycleview依赖
+    implementation ('com.jcodecraeer:xrecyclerview:1.5.9'){
+        exclude group: 'com.android.support'
+    }
+    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+    //滑动删除效果
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    //点赞
+    implementation 'com.zhuang:likeview:2.1'
+    implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
 }

@@ -128,7 +128,7 @@ public class ShopFragment extends Fragment implements IView {
         });
         initLoad();
     }
-
+   //总计
     private void totalMoney() {
         int money=0;
         boolean ischeck=true;

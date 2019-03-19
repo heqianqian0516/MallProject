@@ -1,9 +1,7 @@
 package fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +12,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-
 import com.bwei.mallproject.DetailActivity;
 import com.bwei.mallproject.R;
 import com.stx.xhb.xbanner.XBanner;
@@ -44,6 +42,7 @@ import adapter.SearchAdapter;
 import adapter.SecondCategoryAdapter;
 import adapter.ShowHoriAdapter;
 import api.Apis;
+import bean.BannerBean;
 import bean.EventBean;
 import bean.FindIdBean;
 import bean.FirstCategoryBean;
@@ -57,10 +56,10 @@ import butterknife.Unbinder;
 import presenter.IPresenterImpl;
 import view.AppinfoiItemDecoration;
 import view.IView;
+
 /**
  * 首页
- *
- * **/
+ **/
 public class HomeFragment extends Fragment implements IView {
     private static final String TAG = "HomeFragment++++++++";
     @BindView(R.id.image)
@@ -83,6 +82,13 @@ public class HomeFragment extends Fragment implements IView {
     TextView mHomeTv;
     @BindView(R.id.scroll)
     ScrollView mScroll;
+    @BindView(R.id.rxxp)
+    TextView mRxxp;
+    @BindView(R.id.mlss)
+    TextView mMlss;
+    @BindView(R.id.pzsh)
+    TextView mPzsh;
+
 
     private View view;
     private Unbinder unbinder;
@@ -101,6 +107,7 @@ public class HomeFragment extends Fragment implements IView {
     private SecondCategoryBean secondCategoryBean;
     private FindIdAdapter findIdAdapter;
     private SearchAdapter searchAdapter;
+    private String id;
 
     @Nullable
     @Override
@@ -109,36 +116,9 @@ public class HomeFragment extends Fragment implements IView {
         presenter = new IPresenterImpl(this);
         unbinder = ButterKnife.bind(this, view);
         mImgesUrl = new ArrayList<>();
-        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/cj.png");
-        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/hzp.png");
-        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/lyq.png");
-        mImgesUrl.add("http://mobile.bwstudent.com/images/small/banner/px.png");
-      /*  mImgesUrl.add("http://172.17.8.100/images/small/banner/cj.png");
-        mImgesUrl.add("http://172.17.8.100/images/small/banner/hzp.png");
-        mImgesUrl.add("http://172.17.8.100/images/small/banner/lyq.png");
-        mImgesUrl.add("http://172.17.8.100/images/small/banner/px.png");*/
-        mXbanner.setData(mImgesUrl, null);
-        //xbanner适配数据
-        mXbanner.loadImage(new XBanner.XBannerAdapter() {
-            @Override
-            public void loadBanner(XBanner banner, Object model, View view, int position) {
-                Glide.with(getActivity()).load(mImgesUrl.get(position)).into((ImageView) view);
-            }
-        });
-        //设置样式，里面有很多种样式可以自己都看看效果
-        mXbanner.setPageTransformer(Transformer.Default);//横向移动
-        mXbanner.setPageTransformer(Transformer.Alpha); //渐变，效果不明显
-        mXbanner.setPageTransformer(Transformer.ZoomFade); // 缩小本页，同时放大另一页
-        mXbanner.setPageTransformer(Transformer.ZoomCenter); //本页缩小一点，另一页就放大
-        mXbanner.setPageTransformer(Transformer.ZoomStack); // 本页和下页同事缩小和放大
-        mXbanner.setPageTransformer(Transformer.Stack);  //本页和下页同时左移
-        mXbanner.setPageTransformer(Transformer.Depth);  //本页左移，下页从后面出来
-        mXbanner.setPageTransformer(Transformer.Zoom);  //本页刚左移，下页就在后面
-        //  设置xbanner求换页面的时间
-        mXbanner.setPageChangeDuration(0);
         loadView();
         initView();
-
+        initLoadBanner();
 
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,22 +139,26 @@ public class HomeFragment extends Fragment implements IView {
                 mSearch.setVisibility(View.INVISIBLE);
             }
         });
-       mHomeTv.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               if (mHomeEd.getText().toString().equals("")) {
-                   mSearch.setVisibility(View.VISIBLE);
-                   mHomeTv.setVisibility(View.GONE);
-                   mHomeEd.setVisibility(View.INVISIBLE);
-               } else {
-                   presenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYKEYWORD_GET + "?keyword=" + mHomeEd.getText().toString() + "&page=" + "1" + "&count=5", null, SearchBean.class);
-               }
-           }
-       });
+        mHomeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mHomeEd.getText().toString().equals("")) {
+                    mSearch.setVisibility(View.VISIBLE);
+                    mHomeTv.setVisibility(View.GONE);
+                    mHomeEd.setVisibility(View.INVISIBLE);
+                } else {
+                    presenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYKEYWORD_GET + "?keyword=" + mHomeEd.getText().toString() + "&page=" + "1" + "&count=5", null, SearchBean.class);
+                }
+            }
+        });
         return view;
     }
 
+    private void initLoadBanner() {
+        presenter.startRequestGet(Apis.URL_BANNER_SHOW_GET, null, BannerBean.class);
+    }
 
+    //popupWindow显示一级和二级类目
     private void initPop() {
         View view = View.inflate(getActivity(), R.layout.pop_item_home, null);
         //加载上面的布局
@@ -283,38 +267,48 @@ public class HomeFragment extends Fragment implements IView {
 
     @Override
     public void getDataSuccess(Object data) {
-        if (data instanceof ShowBean) {
+        if (data instanceof BannerBean) {
+            BannerBean bannerBean = (BannerBean) data;
+            if (bannerBean == null) {
+                Toast.makeText(getActivity(), bannerBean.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = 0; i < bannerBean.getResult().size(); i++) {
+                    mImgesUrl.add(bannerBean.getResult().get(i).getImageUrl());
+                    initImageData();
+                }
+            }
+        } else if (data instanceof ShowBean) {
             final ShowBean bean = (ShowBean) data;
-            if (bean == null || !bean.isSuccess()) {
+            if (bean == null) {
                 Toast.makeText(getActivity(), bean.getMessage(), Toast.LENGTH_LONG).show();
             } else {
                 //热销新品数据
-                horiAdapter.setmData(bean.getResult().getRxxp().get(0).getCommodityList());
+                horiAdapter.setmData(bean.getResult().getRxxp().getCommodityList());
                 //魔力时尚数据
-                linerAdapter.setmData(bean.getResult().getMlss().get(0).getCommodityList());
+                linerAdapter.setmData(bean.getResult().getMlss().getCommodityList());
                 //品质生活数据
-                gridAdapter.setmData(bean.getResult().getPzsh().get(0).getCommodityList());
-               horiAdapter.setHttpSetOnclickListener(new ShowHoriAdapter.HttpSetOnclickListener() {
-                   @Override
-                   public void onClickListener(int position) {
-                       int commodityId=bean.getResult().getRxxp().get(0).getCommodityList().get(position).getCommodityId();
-                       getGoods(commodityId);
-                   }
-               });
-               linerAdapter.setHttpSetOnclickListener(new ShowHoriAdapter.HttpSetOnclickListener() {
-                   @Override
-                   public void onClickListener(int position) {
-                       int commodityId=bean.getResult().getMlss().get(0).getCommodityList().get(position).getCommodityId();
-                       getGoods(commodityId);
-                   }
-               });
-               gridAdapter.setHttpSetOnclickListener(new ShowHoriAdapter.HttpSetOnclickListener() {
-                   @Override
-                   public void onClickListener(int position) {
-                       int commodityId=bean.getResult().getPzsh().get(0).getCommodityList().get(position).getCommodityId();
-                       getGoods(commodityId);
-                   }
-               });
+                gridAdapter.setmData(bean.getResult().getPzsh().getCommodityList());
+                horiAdapter.setHttpSetOnclickListener(new ShowHoriAdapter.HttpSetOnclickListener() {
+                    @Override
+                    public void onClickListener(int position) {
+                        int commodityId = bean.getResult().getRxxp().getCommodityList().get(position).getCommodityId();
+                        getGoods(commodityId);
+                    }
+                });
+                linerAdapter.setHttpSetOnclickListener(new ShowHoriAdapter.HttpSetOnclickListener() {
+                    @Override
+                    public void onClickListener(int position) {
+                        int commodityId = bean.getResult().getMlss().getCommodityList().get(position).getCommodityId();
+                        getGoods(commodityId);
+                    }
+                });
+                gridAdapter.setHttpSetOnclickListener(new ShowHoriAdapter.HttpSetOnclickListener() {
+                    @Override
+                    public void onClickListener(int position) {
+                        int commodityId = bean.getResult().getPzsh().getCommodityList().get(position).getCommodityId();
+                        getGoods(commodityId);
+                    }
+                });
             }
             //一级目录
         } else if (data instanceof FirstCategoryBean) {
@@ -338,10 +332,10 @@ public class HomeFragment extends Fragment implements IView {
         } else if (data instanceof FindIdBean) {
             Log.d(TAG, "getDataSuccess11111: ++++++" + FindIdBean.class);
             final FindIdBean findIdBean = (FindIdBean) data;
-            Log.d(TAG, "getDataSuccess222: ++++"+findIdBean.toString());
+            Log.d(TAG, "getDataSuccess222: ++++" + findIdBean.toString());
             mScroll.setVisibility(View.GONE);
             mByRecy.setVisibility(View.VISIBLE);
-            FindIdAdapter findIdAdapter=new FindIdAdapter(getActivity());
+            FindIdAdapter findIdAdapter = new FindIdAdapter(getActivity());
             mByRecy.setAdapter(findIdAdapter);
             findIdAdapter.setmData(findIdBean.getResult());
             findIdAdapter.setCatagralTwoCallBack(new SecondCategoryAdapter.CatagralTwoCallBack() {
@@ -362,37 +356,93 @@ public class HomeFragment extends Fragment implements IView {
                     getGoods(searchBean.getResult().get(index).getCommodityId());
                 }
             });
+            if (id == "1002") {
+                mRxxp.setVisibility(View.VISIBLE);
+            } else if (id == "1003") {
+                mMlss.setVisibility(View.VISIBLE);
+            } else if (id == "1004") {
+                mPzsh.setVisibility(View.VISIBLE);
+            }
+            backPage();
             //传数据跳转详情页面
-        }else if(data instanceof GoodsBean){
-            GoodsBean goodsBean= (GoodsBean) data;
-           EventBus.getDefault().postSticky(new EventBean("goods",data));
-            startActivity(new Intent(getActivity(),DetailActivity.class));
+        }
+        else if (data instanceof GoodsBean) {
+            GoodsBean goodsBean = (GoodsBean) data;
+            EventBus.getDefault().postSticky(new EventBean("goods", data));
+            startActivity(new Intent(getActivity(), DetailActivity.class));
         }
 
 
-
     }
-   private void getGoods(int id){
-       presenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET+"?commodityId="+id,null,GoodsBean.class);
 
-   }
+    private void initImageData() {
+        mXbanner.setData(mImgesUrl, null);
+        mXbanner.loadImage(new XBanner.XBannerAdapter() {
+            @Override
+            public void loadBanner(XBanner banner, Object model, View view, int position) {
+                Glide.with(getActivity()).load(mImgesUrl.get(position)).into((ImageView) view);
+            }
+        });
+        //设置样式，里面有很多种样式可以自己都看看效果
+        mXbanner.setPageTransformer(Transformer.Default);//横向移动
+        mXbanner.setPageTransformer(Transformer.Alpha); //渐变，效果不明显
+        mXbanner.setPageTransformer(Transformer.ZoomFade); // 缩小本页，同时放大另一页
+        mXbanner.setPageTransformer(Transformer.ZoomCenter); //本页缩小一点，另一页就放大
+        mXbanner.setPageTransformer(Transformer.ZoomStack); // 本页和下页同事缩小和放大
+        mXbanner.setPageTransformer(Transformer.Stack);  //本页和下页同时左移
+        mXbanner.setPageTransformer(Transformer.Depth);  //本页左移，下页从后面出来
+        mXbanner.setPageTransformer(Transformer.Zoom);  //本页刚左移，下页就在后面
+        //  设置xbanner求换页面的时间
+        mXbanner.setPageChangeDuration(0);
+    }
+
+    private void getGoods(int id) {
+        // presenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET + "?commodityId=" + id, null, GoodsBean.class);
+        presenter.startRequestGet(String.format(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET, id), null, GoodsBean.class);
+    }
+
     @Override
     public void getDataFail(String error) {
 
     }
 
-    //监听返回键
-    public void getBackData(boolean back) {
-        if (back) {
 
-           /* moreText.setVisibility(View.GONE);
-            moreImage.setVisibility(View.GONE);
-            categoryOneRecycle.setVisibility(View.GONE);
-            categoryTwoRecycle.setVisibility(View.GONE);*/
-            mByRecy.setVisibility(View.GONE);
-           /* imageView.setVisibility(View.GONE);*/
-            mHomeTv.setVisibility(View.GONE);
-            mScroll.setVisibility(View.VISIBLE);
-        }
+    /**
+     * 设置返回的监听
+     */
+    private long exitTime = 0;
+
+    private void backPage() {
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                mScroll.setVisibility(View.VISIBLE);
+                mByRecy.setVisibility(View.GONE);
+
+                if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    mScroll.setVisibility(View.VISIBLE);
+                    mByRecy.setVisibility(View.GONE);
+                    mRxxp.setVisibility(View.GONE);
+                    mMlss.setVisibility(View.GONE);
+                    mPzsh.setVisibility(View.GONE);
+                    if (System.currentTimeMillis() - exitTime > 2000) {
+                        exitTime = System.currentTimeMillis();
+                    } else {
+                        //启动一个意图,回到桌面
+                        Intent backHome = new Intent(Intent.ACTION_MAIN);
+                        backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        backHome.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(backHome);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
+
+
 }

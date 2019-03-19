@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyCircleActivity">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/my_cirlce_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="我的圈子"
+            android:textColor="#666666"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginTop="@dimen/dp_15"
+            />
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_30"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/common_btn_delete_n_hdpi"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15"
+        />
+    </RelativeLayout>
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/clrcle_recycle"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+
+        />
+</LinearLayout>

@@ -56,7 +56,7 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         MineFootViewHolder footViewHolder= (MineFootViewHolder) holder;
         Glide.with(mContext).load(mList.get(position).getMasterPic()).into(footViewHolder.imageView);
         footViewHolder.name.setText(mList.get(position).getCommodityName());
@@ -68,8 +68,9 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         footViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext,DetailActivity.class);
-                mContext.startActivity(intent);
+                if (callBackFoot!=null){
+                    callBackFoot.callBack(mList.get(position).getCommodityId());
+                }
             }
         });
     }
@@ -93,11 +94,12 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             llsj=itemView.findViewById(R.id.llsj);
         }
     }
-    private SecondCategoryAdapter.CatagralTwoCallBack catagralTwoCallBack;
-    public void setCatagralTwoCallBack(SecondCategoryAdapter.CatagralTwoCallBack catagralTwoCallBack){
-        this.catagralTwoCallBack = catagralTwoCallBack;
+    //定义接口跳转详情
+    private CallBackFoot callBackFoot;
+    public void setCallBackFoot(CallBackFoot callBackFoot){
+        this.callBackFoot = callBackFoot;
     }
-    public interface CatagralTwoCallBack{
-        void callBack(int index);
+    public interface CallBackFoot{
+        void callBack(int commodityId);
     }
 }

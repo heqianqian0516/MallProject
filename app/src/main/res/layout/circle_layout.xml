@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:orientation="vertical"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
    <LinearLayout
        android:orientation="vertical"
        android:layout_marginLeft="@dimen/dp_24"
@@ -82,7 +84,17 @@
                android:layout_height="@dimen/dp_20"
                android:layout_toLeftOf="@id/text_num"
                />
-           <TextView
+          <!-- <com.zhuang.likeviewlibrary.LikeView
+               android:id="@+id/likeView"
+               android:src="@mipmap/common_btn_prise_n_hdpi"
+               android:layout_width="@dimen/dp_20"
+               android:layout_height="@dimen/dp_20"
+               android:layout_toLeftOf="@id/text_num"
+               app:like_canCancel="true"
+               app:like_iconSize="@dimen/dp_25"
+               app:like_hasFly="false"
+              app:like_textSize="12sp" />-->
+            <TextView
                android:id="@+id/text_num"
                android:text="121"
                android:layout_width="wrap_content"

@@ -1,9 +1,6 @@
 package api;
 
 
-/**
- * @author Peng
- */
 public class Apis {
     /**
      * 登录 http://172.17.8.100/small/user/v1/login
@@ -16,11 +13,11 @@ public class Apis {
     /**
      * 修改昵称 http://172.17.8.100/small/user/verify/v1/modifyUserNick
      */
-    public static final String URL_UPDATE_NAME_POST="user/verify/v1/modifyUserNick";
+    public static final String URL_UPDATE_NAME_PUT="user/verify/v1/modifyUserNick";
     /**
      *  修改用户密码 http://172.17.8.100/small/user/verify/v1/modifyUserPwd
      */
-    public static final String URL_UPDATE_PASSWORD_POST="user/verify/v1/modifyUserPwd";
+    public static final String URL_UPDATE_PASSWORD_PUT="user/verify/v1/modifyUserPwd";
     /**
      *  用户上传头像 http://172.17.8.100/small/user/verify/v1/modifyHeadPic
      */
@@ -48,7 +45,7 @@ public class Apis {
     /**
      * 查询用户钱包 http://172.17.8.100/small/user/verify/v1/findUserWallet
      */
-    public static final String URL_FIND_USER_WALLET_GET="user/verify/v1/findUserWallet";
+    public static final String URL_FIND_USER_WALLET_GET="user/verify/v1/findUserWallet?page=%d&count=%d";
     /**
      * 创建订单 http://172.17.8.100/small/order/verify/v1/createOrder
      */
@@ -56,7 +53,7 @@ public class Apis {
     /**
      * 支付 http://172.17.8.100/small/order/verify/v1/pay
      */
-    public static final String URL_PAY_POST="user/verify/v1/pay";
+    public static final String URL_PAY_POST="order/verify/v1/pay";
     /**
      * 根据订单状态查询订单信息 http://172.17.8.100/small/order/verify/v1/findOrderListByStatus
      */
@@ -64,9 +61,10 @@ public class Apis {
     /**
      * 删除订单 http://172.17.8.100/small/order/verify/v1/deleteOrder
      */
-    public static final String URL_DELETE_ORDER_DELETE="user/verify/v1/deleteOrder";
+    public static final String URL_DELETE_ORDER_DELETE="order/verify/v1/deleteOrder?orderId=%s";
     /**
      * 收货 http://172.17.8.100/small/order/verify/v1/confirmReceipt
+     * http://172.17.8.100/small/order/verify/v1/confirmReceipt
      */
     public static final String URL_CONFIRM_RECEIPT_PUT="order/verify/v1/confirmReceipt";
     /**
@@ -89,7 +87,7 @@ public class Apis {
     /**
      * 发布圈子 http://172.17.8.100/small/circle/verify/v1/releaseCircle
      */
-    public static final String URL_RELEASE_CIRCLE_POST="user/verify/v1/releaseCircle";
+    public static final String URL_RELEASE_CIRCLE_POST="circle/verify/v1/releaseCircle";
     /**
      * 删除我发表过的圈子 http://172.17.8.100/small/circle/verify/v1/deleteCircle
      */
@@ -97,15 +95,16 @@ public class Apis {
     /**
      * 我的圈子 http://172.17.8.100/small/circle/verify/v1/findMyCircleById
      */
-    public static final String URL_FIND_MYCIRCLE_BYID_GET="circle/verify/v1/findMyCircleById";
+    public static final String URL_FIND_MYCIRCLE_BYID_GET="circle/verify/v1/findMyCircleById?page=%d&count=%d";
     /**
      * 圈子点赞 http://172.17.8.100/small/circle/verify/v1/addCircleGreat
+     * http://172.17.8.100/small/circle/verify/v1/addCircleGreat
      */
-    public static final String URL_ADD_CIRCLE_GREAT_POST="user/verify/v1/addCircleGreat";
+    public static final String URL_ADD_CIRCLE_GREAT_POST="circle/verify/v1/addCircleGreat";
     /**
      * 取消点赞 http://172.17.8.100/small/circle/verify/v1/cancelCircleGreat
      */
-    public static final String URL_CANCLE_CIRCLE_GREAT_DELETE="user/verify/v1/cancelCircleGreat";
+    public static final String URL_CANCLE_CIRCLE_GREAT_DELETE="circle/verify/v1/cancelCircleGreat?circleId=%d";
     /**
      * banner展示列表 http://172.17.8.100/small/commodity/v1/bannerShow
      */
@@ -121,7 +120,7 @@ public class Apis {
     /**
      *  商品详情 http://172.17.8.100/small/commodity/v1/findCommodityDetailsById
      */
-    public static final String URL_FIND_COMMODITY_DETAILS_BYID_GET="commodity/v1/findCommodityDetailsById";
+    public static final String URL_FIND_COMMODITY_DETAILS_BYID_GET="commodity/v1/findCommodityDetailsById?commodityId=%d";
     /**
      * 根据关键词查询商品信息 http://172.17.8.100/small/commodity/v1/findCommodityByKeyword
      */
